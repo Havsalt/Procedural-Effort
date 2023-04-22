@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://cshsuokh5exyn"]
+
+[ext_resource type="PackedScene" uid="uid://sc0ru6is0bml" path="res://scenes/projectiles/projectile.tscn" id="1_b07fi"]
+[ext_resource type="Script" path="res://scenes/projectiles/arrow.gd" id="2_rcbsy"]
+[ext_resource type="Texture2D" uid="uid://p43ox7c3l5lw" path="res://sprites/firearms/arrow.png" id="2_u7pnt"]
+[ext_resource type="AudioStream" uid="uid://df4mwdhr7q8mx" path="res://sounds/bow_arror_impact.wav" id="3_yna04"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_njntq"]
+size = Vector2(24, 20)
+
+[node name="Arrow" instance=ExtResource("1_b07fi")]
+script = ExtResource("2_rcbsy")
+damage = 34
+hp = 3
+speed = 1100.0
+bounce_angle = 15
+length = 90
+additional_travel = 22.0
+enable_additional_lifetime = true
+
+[node name="Sprite2D" parent="." index="2"]
+z_index = -2
+position = Vector2(43.2548, 1.25483)
+rotation = 0.785398
+scale = Vector2(4, 4)
+texture = ExtResource("2_u7pnt")
+
+[node name="CollisionShape2D" parent="." index="3"]
+position = Vector2(75.2548, -2.38419e-07)
+shape = SubResource("RectangleShape2D_njntq")
+
+[node name="SoundImpact" parent="." index="5"]
+stream = ExtResource("3_yna04")
+volume_db = 5.0
+pitch_scale = 1.5
+
+[node name="Shadow" type="PointLight2D" parent="." index="6"]
+position = Vector2(70, 25)
+rotation = 0.785398
+blend_mode = 1
+range_z_max = -8
+texture = ExtResource("2_u7pnt")
+texture_scale = 3.0

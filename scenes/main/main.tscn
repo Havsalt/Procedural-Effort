@@ -1,0 +1,746 @@
+[gd_scene load_steps=16 format=3 uid="uid://b8oiv823jhmnm"]
+
+[ext_resource type="Script" path="res://scenes/main/main.gd" id="1_psvmr"]
+[ext_resource type="PackedScene" uid="uid://j3rjsvyxq2nn" path="res://ui/item_slot.tscn" id="2_3qtjr"]
+[ext_resource type="Shader" path="res://shaders/color_override_rgb.gdshader" id="2_h3b5x"]
+[ext_resource type="Texture2D" uid="uid://6ia5po676wyo" path="res://icon.svg" id="3_drxxu"]
+[ext_resource type="PackedScene" uid="uid://1tahulpvv1yx" path="res://scenes/items/firearms/bow.tscn" id="3_vdpbw"]
+[ext_resource type="Script" path="res://scenes/util/spawnpoint_manager.gd" id="6_7a675"]
+[ext_resource type="PackedScene" uid="uid://boau3gsr4plsb" path="res://scenes/util/spawnpoint.tscn" id="6_8wxl4"]
+
+[sub_resource type="Animation" id="Animation_up7up"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_cows6"]
+resource_name = "idle"
+length = 20.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1, 4.4, 5.4, 9.5, 12.7, 14.1, 16.1, 18.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(34, 38), Vector2(392, -166), Vector2(487, -99), Vector2(218, 130), Vector2(-35, -129), Vector2(-232, -24), Vector2(-339, 100), Vector2(-193, 234)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ewtxf"]
+_data = {
+"RESET": SubResource("Animation_up7up"),
+"idle": SubResource("Animation_cows6")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xvghs"]
+shader = ExtResource("2_h3b5x")
+shader_parameter/color = Color(0.341176, 0.588235, 0.368627, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f5jld"]
+size = Vector2(96, 96)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ss1f4"]
+shader = ExtResource("2_h3b5x")
+shader_parameter/color = Color(0.231373, 0.411765, 0.25098, 1)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_m40q5"]
+polygon = PackedVector2Array(-49, -49, 49, -49, 49, 49, -49, 49, -40.7435, -8.32755)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_53euw"]
+size = Vector2(96, 96)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_psvmr")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../CameraHoldPoint/TempCamera")
+libraries = {
+"": SubResource("AnimationLibrary_ewtxf")
+}
+
+[node name="CameraHoldPoint" type="Marker2D" parent="."]
+
+[node name="TempCamera" type="Camera2D" parent="CameraHoldPoint"]
+position = Vector2(576, 324)
+
+[node name="Menu" type="CanvasLayer" parent="."]
+
+[node name="PanelInfo" type="Panel" parent="Menu"]
+offset_left = 83.0
+offset_top = 39.0
+offset_right = 653.0
+offset_bottom = 145.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Menu/PanelInfo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="HostName" type="VBoxContainer" parent="Menu/PanelInfo/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Menu/PanelInfo/HBoxContainer/HostName"]
+layout_mode = 2
+text = "Host name"
+vertical_alignment = 1
+
+[node name="TextEdit" type="TextEdit" parent="Menu/PanelInfo/HBoxContainer/HostName"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+text = "127.0.0.1"
+placeholder_text = "Host name"
+
+[node name="PortNumber" type="VBoxContainer" parent="Menu/PanelInfo/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Menu/PanelInfo/HBoxContainer/PortNumber"]
+layout_mode = 2
+text = "Port number"
+vertical_alignment = 1
+
+[node name="TextEdit" type="TextEdit" parent="Menu/PanelInfo/HBoxContainer/PortNumber"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+text = "8585"
+placeholder_text = "Port number"
+
+[node name="Host" type="VBoxContainer" parent="Menu/PanelInfo/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Menu/PanelInfo/HBoxContainer/Host"]
+layout_mode = 2
+text = "Host game"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="Menu/PanelInfo/HBoxContainer/Host"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+text = "Click"
+
+[node name="Join" type="VBoxContainer" parent="Menu/PanelInfo/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Menu/PanelInfo/HBoxContainer/Join"]
+layout_mode = 2
+text = "Join game"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="Menu/PanelInfo/HBoxContainer/Join"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+text = "Click"
+
+[node name="PanelName" type="Panel" parent="Menu"]
+offset_left = 84.0
+offset_top = 168.0
+offset_right = 461.0
+offset_bottom = 282.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menu/PanelName"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 31.0
+offset_top = 15.0
+offset_right = -33.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Menu/PanelName/VBoxContainer"]
+layout_mode = 2
+text = "Nickname"
+
+[node name="TextEdit" type="TextEdit" parent="Menu/PanelName/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+
+[node name="Scoreboard" type="CanvasLayer" parent="."]
+
+[node name="TextEdit" type="TextEdit" parent="Scoreboard"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -206.0
+offset_top = 42.0
+offset_right = -70.0
+offset_bottom = 219.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+mouse_default_cursor_shape = 0
+editable = false
+context_menu_enabled = false
+shortcut_keys_enabled = false
+selecting_enabled = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+virtual_keyboard_enabled = false
+middle_mouse_paste_enabled = false
+scroll_fit_content_height = true
+
+[node name="LoadoutMenu" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="Panel" type="Panel" parent="LoadoutMenu"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = 30.0
+offset_right = -30.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="EquippedItems" type="VBoxContainer" parent="LoadoutMenu/Panel"]
+layout_mode = 0
+offset_left = 125.0
+offset_top = 364.0
+offset_right = 828.0
+offset_bottom = 479.0
+
+[node name="Hotkeys" type="HBoxContainer" parent="LoadoutMenu/Panel/EquippedItems"]
+layout_mode = 2
+
+[node name="Label1" type="Label" parent="LoadoutMenu/Panel/EquippedItems/Hotkeys"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "1"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="LoadoutMenu/Panel/EquippedItems/Hotkeys"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "2"
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="LoadoutMenu/Panel/EquippedItems/Hotkeys"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "3"
+horizontal_alignment = 1
+
+[node name="Label4" type="Label" parent="LoadoutMenu/Panel/EquippedItems/Hotkeys"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "F"
+horizontal_alignment = 1
+
+[node name="Label5" type="Label" parent="LoadoutMenu/Panel/EquippedItems/Hotkeys"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "E"
+horizontal_alignment = 1
+
+[node name="Label6" type="Label" parent="LoadoutMenu/Panel/EquippedItems/Hotkeys"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Q"
+horizontal_alignment = 1
+
+[node name="Items" type="HBoxContainer" parent="LoadoutMenu/Panel/EquippedItems"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ItemSlot1" parent="LoadoutMenu/Panel/EquippedItems/Items" instance=ExtResource("2_3qtjr")]
+layout_mode = 2
+item = ExtResource("3_vdpbw")
+
+[node name="ItemSlot2" parent="LoadoutMenu/Panel/EquippedItems/Items" instance=ExtResource("2_3qtjr")]
+layout_mode = 2
+
+[node name="ItemSlot3" parent="LoadoutMenu/Panel/EquippedItems/Items" instance=ExtResource("2_3qtjr")]
+layout_mode = 2
+
+[node name="ItemSlot4" parent="LoadoutMenu/Panel/EquippedItems/Items" instance=ExtResource("2_3qtjr")]
+layout_mode = 2
+
+[node name="ItemSlot5" parent="LoadoutMenu/Panel/EquippedItems/Items" instance=ExtResource("2_3qtjr")]
+layout_mode = 2
+
+[node name="ItemSlot6" parent="LoadoutMenu/Panel/EquippedItems/Items" instance=ExtResource("2_3qtjr")]
+layout_mode = 2
+
+[node name="AvailableItems" type="VBoxContainer" parent="LoadoutMenu/Panel"]
+layout_mode = 0
+offset_left = 123.0
+offset_top = 233.0
+offset_right = 561.0
+offset_bottom = 341.0
+
+[node name="Items" type="HBoxContainer" parent="LoadoutMenu/Panel/AvailableItems"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ItemSlot1" parent="LoadoutMenu/Panel/AvailableItems/Items" instance=ExtResource("2_3qtjr")]
+layout_mode = 2
+
+[node name="ItemSlot2" parent="LoadoutMenu/Panel/AvailableItems/Items" instance=ExtResource("2_3qtjr")]
+layout_mode = 2
+
+[node name="ItemSlot3" parent="LoadoutMenu/Panel/AvailableItems/Items" instance=ExtResource("2_3qtjr")]
+layout_mode = 2
+
+[node name="ItemSlot4" parent="LoadoutMenu/Panel/AvailableItems/Items" instance=ExtResource("2_3qtjr")]
+layout_mode = 2
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://scenes/player/player.tscn")
+spawn_path = NodePath("..")
+
+[node name="Background" type="Sprite2D" parent="."]
+z_index = -10
+material = SubResource("ShaderMaterial_xvghs")
+position = Vector2(-653, -83)
+scale = Vector2(100, 100)
+texture = ExtResource("3_drxxu")
+metadata/_edit_lock_ = true
+metadata/_edit_group_ = true
+
+[node name="Sun" type="DirectionalLight2D" parent="."]
+position = Vector2(300, -220)
+rotation = -0.506145
+color = Color(0.101961, 0.101961, 0.101961, 1)
+range_layer_max = 10
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 0.505882)
+shadow_filter = 1
+height = 1.0
+
+[node name="SpawnpointManager" type="Node" parent="."]
+script = ExtResource("6_7a675")
+
+[node name="Spawnpoint1" parent="SpawnpointManager" instance=ExtResource("6_8wxl4")]
+position = Vector2(449, 717)
+rotation = -0.722951
+
+[node name="Spawnpoint2" parent="SpawnpointManager" instance=ExtResource("6_8wxl4")]
+position = Vector2(391, -379)
+rotation = -1.28672
+
+[node name="Spawnpoint3" parent="SpawnpointManager" instance=ExtResource("6_8wxl4")]
+position = Vector2(-577, -47)
+rotation = -3.35879
+
+[node name="Spawnpoint4" parent="SpawnpointManager" instance=ExtResource("6_8wxl4")]
+position = Vector2(1444, 1468)
+rotation = -5.58189
+
+[node name="Walls" type="Node" parent="."]
+
+[node name="Block1" type="StaticBody2D" parent="Walls"]
+position = Vector2(0, 25)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Block1"]
+shape = SubResource("RectangleShape2D_f5jld")
+
+[node name="Icon" type="Sprite2D" parent="Walls/Block1"]
+material = SubResource("ShaderMaterial_ss1f4")
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_drxxu")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Walls/Block1"]
+occluder = SubResource("OccluderPolygon2D_m40q5")
+
+[node name="Block2" type="StaticBody2D" parent="Walls"]
+position = Vector2(742, 57)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Block2"]
+shape = SubResource("RectangleShape2D_f5jld")
+
+[node name="Icon" type="Sprite2D" parent="Walls/Block2"]
+material = SubResource("ShaderMaterial_ss1f4")
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_drxxu")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Walls/Block2"]
+occluder = SubResource("OccluderPolygon2D_m40q5")
+
+[node name="Block3" type="StaticBody2D" parent="Walls"]
+position = Vector2(-212, 392)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Block3"]
+shape = SubResource("RectangleShape2D_f5jld")
+
+[node name="Icon" type="Sprite2D" parent="Walls/Block3"]
+material = SubResource("ShaderMaterial_ss1f4")
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_drxxu")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Walls/Block3"]
+occluder = SubResource("OccluderPolygon2D_m40q5")
+
+[node name="Block4" type="StaticBody2D" parent="Walls"]
+position = Vector2(189, 504)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Block4"]
+shape = SubResource("RectangleShape2D_f5jld")
+
+[node name="Icon" type="Sprite2D" parent="Walls/Block4"]
+material = SubResource("ShaderMaterial_ss1f4")
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_drxxu")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Walls/Block4"]
+occluder = SubResource("OccluderPolygon2D_m40q5")
+
+[node name="Block5" type="StaticBody2D" parent="Walls"]
+position = Vector2(952, 315)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Block5"]
+shape = SubResource("RectangleShape2D_f5jld")
+
+[node name="Icon" type="Sprite2D" parent="Walls/Block5"]
+material = SubResource("ShaderMaterial_ss1f4")
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_drxxu")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Walls/Block5"]
+occluder = SubResource("OccluderPolygon2D_m40q5")
+
+[node name="Block6" type="StaticBody2D" parent="Walls"]
+position = Vector2(1412, 205)
+scale = Vector2(0.7981, 6.4114)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Block6"]
+shape = SubResource("RectangleShape2D_f5jld")
+
+[node name="Icon" type="Sprite2D" parent="Walls/Block6"]
+material = SubResource("ShaderMaterial_ss1f4")
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_drxxu")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Walls/Block6"]
+occluder = SubResource("OccluderPolygon2D_m40q5")
+
+[node name="Block7" type="StaticBody2D" parent="Walls"]
+position = Vector2(1012, -346)
+rotation = 0.850017
+scale = Vector2(0.7981, 6.4114)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Block7"]
+shape = SubResource("RectangleShape2D_f5jld")
+
+[node name="Icon" type="Sprite2D" parent="Walls/Block7"]
+material = SubResource("ShaderMaterial_ss1f4")
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_drxxu")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Walls/Block7"]
+occluder = SubResource("OccluderPolygon2D_m40q5")
+
+[node name="Block8" type="StaticBody2D" parent="Walls"]
+position = Vector2(457, 798)
+rotation = -0.721921
+scale = Vector2(0.7981, 6.4114)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Block8"]
+shape = SubResource("RectangleShape2D_f5jld")
+
+[node name="Icon" type="Sprite2D" parent="Walls/Block8"]
+material = SubResource("ShaderMaterial_ss1f4")
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_drxxu")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Walls/Block8"]
+occluder = SubResource("OccluderPolygon2D_m40q5")
+
+[node name="Block9" type="StaticBody2D" parent="Walls"]
+position = Vector2(-419, 20)
+rotation = 0.423922
+scale = Vector2(0.7981, 6.4114)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Block9"]
+shape = SubResource("RectangleShape2D_f5jld")
+
+[node name="Icon" type="Sprite2D" parent="Walls/Block9"]
+material = SubResource("ShaderMaterial_ss1f4")
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_drxxu")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Walls/Block9"]
+occluder = SubResource("OccluderPolygon2D_m40q5")
+
+[node name="Block10" type="StaticBody2D" parent="Walls"]
+position = Vector2(1201, 760)
+rotation = 1.46481
+scale = Vector2(0.7981, 6.4114)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Block10"]
+shape = SubResource("RectangleShape2D_f5jld")
+
+[node name="Icon" type="Sprite2D" parent="Walls/Block10"]
+material = SubResource("ShaderMaterial_ss1f4")
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_drxxu")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Walls/Block10"]
+occluder = SubResource("OccluderPolygon2D_m40q5")
+
+[node name="Block11" type="StaticBody2D" parent="Walls"]
+position = Vector2(114, 802)
+rotation = 1.46481
+scale = Vector2(0.7981, 6.4114)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Block11"]
+shape = SubResource("RectangleShape2D_f5jld")
+
+[node name="Icon" type="Sprite2D" parent="Walls/Block11"]
+material = SubResource("ShaderMaterial_ss1f4")
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_drxxu")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Walls/Block11"]
+occluder = SubResource("OccluderPolygon2D_m40q5")
+
+[node name="Block12" type="StaticBody2D" parent="Walls"]
+position = Vector2(-456, -179)
+rotation = 2.24616
+scale = Vector2(0.7981, 6.4114)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Block12"]
+shape = SubResource("RectangleShape2D_f5jld")
+
+[node name="Icon" type="Sprite2D" parent="Walls/Block12"]
+material = SubResource("ShaderMaterial_ss1f4")
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_drxxu")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Walls/Block12"]
+occluder = SubResource("OccluderPolygon2D_m40q5")
+
+[node name="Block13" type="StaticBody2D" parent="Walls"]
+position = Vector2(242, -375)
+rotation = 1.87689
+scale = Vector2(0.7981, 6.4114)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Block13"]
+shape = SubResource("RectangleShape2D_f5jld")
+
+[node name="Icon" type="Sprite2D" parent="Walls/Block13"]
+material = SubResource("ShaderMaterial_ss1f4")
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_drxxu")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Walls/Block13"]
+occluder = SubResource("OccluderPolygon2D_m40q5")
+
+[node name="Block14" type="StaticBody2D" parent="Walls"]
+position = Vector2(375, 797)
+rotation = 2.22008
+scale = Vector2(1.16402, 2.79856)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Block14"]
+shape = SubResource("RectangleShape2D_f5jld")
+
+[node name="Icon" type="Sprite2D" parent="Walls/Block14"]
+material = SubResource("ShaderMaterial_ss1f4")
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_drxxu")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Walls/Block14"]
+occluder = SubResource("OccluderPolygon2D_m40q5")
+
+[node name="Block15" type="StaticBody2D" parent="Walls"]
+position = Vector2(530, 928)
+rotation = 1.95592
+scale = Vector2(0.554402, 1.53638)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Block15"]
+shape = SubResource("RectangleShape2D_f5jld")
+
+[node name="Icon" type="Sprite2D" parent="Walls/Block15"]
+material = SubResource("ShaderMaterial_ss1f4")
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_drxxu")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Walls/Block15"]
+occluder = SubResource("OccluderPolygon2D_m40q5")
+
+[node name="Block16" type="StaticBody2D" parent="Walls"]
+position = Vector2(336, -268)
+rotation = 1.87689
+scale = Vector2(0.993722, 2.9837)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Block16"]
+shape = SubResource("RectangleShape2D_f5jld")
+
+[node name="Icon" type="Sprite2D" parent="Walls/Block16"]
+material = SubResource("ShaderMaterial_ss1f4")
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_drxxu")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Walls/Block16"]
+occluder = SubResource("OccluderPolygon2D_m40q5")
+
+[node name="Block17" type="StaticBody2D" parent="Walls"]
+position = Vector2(473, -233)
+rotation = 0.799523
+scale = Vector2(0.644542, 0.968088)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Block17"]
+shape = SubResource("RectangleShape2D_f5jld")
+
+[node name="Icon" type="Sprite2D" parent="Walls/Block17"]
+material = SubResource("ShaderMaterial_ss1f4")
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_drxxu")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Walls/Block17"]
+occluder = SubResource("OccluderPolygon2D_m40q5")
+
+[node name="Block18" type="StaticBody2D" parent="Walls"]
+position = Vector2(-517, -50)
+rotation = 2.93074
+scale = Vector2(0.993722, 2.9837)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Block18"]
+shape = SubResource("RectangleShape2D_f5jld")
+
+[node name="Icon" type="Sprite2D" parent="Walls/Block18"]
+material = SubResource("ShaderMaterial_ss1f4")
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_drxxu")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Walls/Block18"]
+occluder = SubResource("OccluderPolygon2D_m40q5")
+
+[node name="Block19" type="StaticBody2D" parent="Walls"]
+position = Vector2(-442, -74)
+rotation = 2.93074
+scale = Vector2(0.801419, 2.24097)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Block19"]
+shape = SubResource("RectangleShape2D_f5jld")
+
+[node name="Icon" type="Sprite2D" parent="Walls/Block19"]
+material = SubResource("ShaderMaterial_ss1f4")
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_drxxu")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Walls/Block19"]
+occluder = SubResource("OccluderPolygon2D_m40q5")
+
+[node name="Block20" type="StaticBody2D" parent="Walls"]
+position = Vector2(1375, 1456)
+rotation = -0.869795
+scale = Vector2(2.94739, 1.13206)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Block20"]
+shape = SubResource("RectangleShape2D_f5jld")
+
+[node name="Icon" type="Sprite2D" parent="Walls/Block20"]
+material = SubResource("ShaderMaterial_ss1f4")
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_drxxu")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Walls/Block20"]
+occluder = SubResource("OccluderPolygon2D_m40q5")
+
+[node name="Block21" type="StaticBody2D" parent="Walls"]
+position = Vector2(1350, 1375)
+rotation = -1.34582
+scale = Vector2(2.94739, 1.13206)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Block21"]
+shape = SubResource("RectangleShape2D_f5jld")
+
+[node name="Icon" type="Sprite2D" parent="Walls/Block21"]
+material = SubResource("ShaderMaterial_ss1f4")
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_drxxu")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Walls/Block21"]
+occluder = SubResource("OccluderPolygon2D_m40q5")
+
+[node name="Block22" type="StaticBody2D" parent="Walls"]
+position = Vector2(1421, 1341)
+rotation = 1.24384
+scale = Vector2(1.64469, 0.591123)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Block22"]
+shape = SubResource("RectangleShape2D_f5jld")
+
+[node name="Icon" type="Sprite2D" parent="Walls/Block22"]
+material = SubResource("ShaderMaterial_ss1f4")
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_drxxu")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Walls/Block22"]
+occluder = SubResource("OccluderPolygon2D_m40q5")
+
+[node name="North" type="StaticBody2D" parent="Walls"]
+position = Vector2(392, -1728)
+scale = Vector2(50, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/North"]
+shape = SubResource("RectangleShape2D_53euw")
+
+[node name="Icon" type="Sprite2D" parent="Walls/North"]
+material = SubResource("ShaderMaterial_ss1f4")
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_drxxu")
+
+[node name="South" type="StaticBody2D" parent="Walls"]
+position = Vector2(392, 2272)
+scale = Vector2(50, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/South"]
+shape = SubResource("RectangleShape2D_53euw")
+
+[node name="Icon" type="Sprite2D" parent="Walls/South"]
+material = SubResource("ShaderMaterial_ss1f4")
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_drxxu")
+
+[node name="East" type="StaticBody2D" parent="Walls"]
+position = Vector2(-1608, 272)
+scale = Vector2(1, 50)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/East"]
+shape = SubResource("RectangleShape2D_53euw")
+
+[node name="Icon" type="Sprite2D" parent="Walls/East"]
+material = SubResource("ShaderMaterial_ss1f4")
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_drxxu")
+
+[node name="West" type="StaticBody2D" parent="Walls"]
+position = Vector2(2392, 272)
+scale = Vector2(1, 50)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/West"]
+shape = SubResource("RectangleShape2D_53euw")
+
+[node name="Icon" type="Sprite2D" parent="Walls/West"]
+material = SubResource("ShaderMaterial_ss1f4")
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_drxxu")
+
+[connection signal="pressed" from="Menu/PanelInfo/HBoxContainer/Host/Button" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="Menu/PanelInfo/HBoxContainer/Join/Button" to="." method="_on_join_pressed"]
+[connection signal="despawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_despawned"]
+[connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]

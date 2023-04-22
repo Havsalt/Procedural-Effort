@@ -1,0 +1,213 @@
+[gd_scene load_steps=11 format=3 uid="uid://boau3gsr4plsb"]
+
+[ext_resource type="Script" path="res://scenes/util/spawnpoint.gd" id="1_dcmkl"]
+[ext_resource type="Shader" path="res://shaders/color_override_rgb.gdshader" id="2_1iw4r"]
+[ext_resource type="Texture2D" uid="uid://cfpbfy0pi8mj4" path="res://sprites/ambient/icon_white.png" id="3_lem0j"]
+[ext_resource type="AudioStream" uid="uid://dfi7iyxat73hg" path="res://sounds/door_breach2.wav" id="5_88p4q"]
+[ext_resource type="AudioStream" uid="uid://ctalkbbxuq0vy" path="res://sounds/door_breach.wav" id="5_daahx"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6d5f8"]
+shader = ExtResource("2_1iw4r")
+shader_parameter/color = Color(0.74902, 0.878431, 1, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yki0s"]
+size = Vector2(24, 192)
+
+[sub_resource type="Animation" id="Animation_t6nsu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Door:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedPosition:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-128, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimatedPosition:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AnimatedHandL:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-42, -64)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("AnimatedHandR:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-42, 64)]
+}
+
+[sub_resource type="Animation" id="Animation_nwvu5"]
+resource_name = "respawn_player"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Door:rotation")
+tracks/0/interp = 4
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 1, 1.2, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 0.224293, 0.260007, 2.1809, 2.1809, 0.0]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SoundBreach")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimatedPosition:position")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.6, 0.7, 1.2, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-128, 0), Vector2(-105, -17), Vector2(-89, -14), Vector2(-37, -13), Vector2(61, 0), Vector2(97, 2)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AnimatedPosition:rotation")
+tracks/3/interp = 4
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.7, 1.3, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.314279, 0.338965, 0.067392, 0.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("AnimatedHandL:position")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.7, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-42, -64), Vector2(-31, -60), Vector2(2, -54), Vector2(12, -43), Vector2(56, -31), Vector2(120, -58), Vector2(189, -57)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("AnimatedHandR:position")
+tracks/5/interp = 2
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.7, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-42, 64), Vector2(-30, 41), Vector2(-11, 19), Vector2(-6, 24), Vector2(41, 16), Vector2(110, 63), Vector2(186, 53)]
+}
+tracks/6/type = "method"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("SoundReach")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ucd73"]
+_data = {
+"RESET": SubResource("Animation_t6nsu"),
+"respawn_player": SubResource("Animation_nwvu5")
+}
+
+[node name="Spawnpoint" type="Marker2D"]
+script = ExtResource("1_dcmkl")
+
+[node name="Door" type="AnimatableBody2D" parent="."]
+position = Vector2(0, 96)
+
+[node name="Sprite2D" type="Sprite2D" parent="Door"]
+material = SubResource("ShaderMaterial_6d5f8")
+position = Vector2(-3.57628e-07, -96)
+scale = Vector2(0.1875, 1.5)
+texture = ExtResource("3_lem0j")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Door"]
+position = Vector2(0, -96)
+shape = SubResource("RectangleShape2D_yki0s")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ucd73")
+}
+
+[node name="SoundBreach" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_88p4q")
+
+[node name="SoundReach" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_daahx")
+
+[node name="AnimatedPosition" type="Marker2D" parent="."]
+position = Vector2(-128, 0)
+
+[node name="AnimatedHandL" type="Marker2D" parent="."]
+position = Vector2(-42, -64)
+
+[node name="AnimatedHandR" type="Marker2D" parent="."]
+position = Vector2(-42, 64)
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_respawn_finished"]

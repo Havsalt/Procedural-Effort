@@ -1,0 +1,377 @@
+[gd_scene load_steps=12 format=3 uid="uid://bpt0b2mv5ukon"]
+
+[ext_resource type="Script" path="res://scenes/items/firearms/firearm.gd" id="1_hfhnp"]
+[ext_resource type="PackedScene" uid="uid://dmh4f70w1csr0" path="res://scenes/projectiles/plasma_charge.tscn" id="2_vovyv"]
+[ext_resource type="AudioStream" uid="uid://f5f51w7l71s" path="res://sounds/bubbelhead_shoot.wav" id="3_orbxr"]
+[ext_resource type="Texture2D" uid="uid://cqbykjhbf3tik" path="res://sprites/firearms/plasma_rifle_core3.png" id="4_yqdqy"]
+[ext_resource type="Texture2D" uid="uid://d1vsmi14wjy5" path="res://sprites/firearms/plasma_rifle_mag.png" id="5_id7fb"]
+
+[sub_resource type="Animation" id="Animation_i8351"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FloatPoint/HoldPointA:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-55, 11)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FloatPoint/HoldPointA:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("FloatPoint/HoldPointB:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(25, -13)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("FloatPoint/HoldPointB:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("FloatPoint/Magazine:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-28, -10)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("FloatPoint/Magazine:rotation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath(".:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath(".:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-2, 12)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath(".:rotation")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_dgoco"]
+resource_name = "dummy"
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_1tttk"]
+resource_name = "equip"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FloatPoint/HoldPointA:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(90.6032, 17.9182), Vector2(40.6668, 15.2056), Vector2(16.0628, 14.2404), Vector2(-55, 11)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FloatPoint/HoldPointB:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(75.9504, -53.7079), Vector2(25.3899, -12.8589), Vector2(27.4553, -12.4428), Vector2(36.1683, -13.0348), Vector2(25, -13)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:position")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.2, 0.4, 0.7, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-103, 13), Vector2(-72, 21), Vector2(-22, 21), Vector2(-2, 12)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:rotation")
+tracks/4/interp = 4
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.4, 0.7, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.147049, -0.643833, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_jc01r"]
+resource_name = "reload"
+length = 1.25
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FloatPoint/Magazine:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(-0.3, 0, 0.1, 0.5, 0.7, 0.8, 1, 1.15),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-28, -28), Vector2(-28, -10), Vector2(-28, -10), Vector2(-56, -46), Vector2(-99, -51), Vector2(-99, -51), Vector2(-28, -28), Vector2(-28, -10)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FloatPoint/Magazine:rotation")
+tracks/1/interp = 4
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5, 0.7, 0.8, 1, 1.15),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, -0.761677, 4.96709, 4.96709, 0.0, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("FloatPoint/HoldPointA:position")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-55, 11), Vector2(-55, 11)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("FloatPoint/HoldPointB:position")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.5, 0.7, 0.8, 0.9, 1, 1.15, 1.25),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(25, -13), Vector2(-27, -9), Vector2(-29, -16), Vector2(-34, -26), Vector2(-55, -46), Vector2(-81, -55), Vector2(-81, -55), Vector2(-61, -42), Vector2(-25, -26), Vector2(-26, -11), Vector2(25, -13)]
+}
+
+[sub_resource type="Animation" id="Animation_lp1ex"]
+resource_name = "unequip"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FloatPoint/HoldPointA:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-55, 11), Vector2(22.275, 13.8861), Vector2(21.4323, 15.0219), Vector2(90.6032, 17.9182)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FloatPoint/HoldPointB:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.6, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(25, -13), Vector2(36.1683, -13.0348), Vector2(26.5257, -12.0162), Vector2(28.5041, -12.3093), Vector2(75.9504, -53.7079)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.8),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:position")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-2, 12), Vector2(-22, 21), Vector2(-72, 21), Vector2(-103, 13)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:rotation")
+tracks/4/interp = 4
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, -0.643833, 0.147049]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vpu0g"]
+_data = {
+"RESET": SubResource("Animation_i8351"),
+"dummy": SubResource("Animation_dgoco"),
+"equip": SubResource("Animation_1tttk"),
+"reload": SubResource("Animation_jc01r"),
+"unequip": SubResource("Animation_lp1ex")
+}
+
+[node name="PlasmaRifle" type="Node2D"]
+position = Vector2(-2, 12)
+script = ExtResource("1_hfhnp")
+projectile = ExtResource("2_vovyv")
+max_ammo = 5
+ammo = 5
+firerate = 7.0
+recoil_min = Vector2(7, 2)
+recoil_max = Vector2(10, 5)
+rot_recoil_min = -0.15
+rot_recoil_max = -0.075
+rot_recoil_motion_recovery = 0.08
+spread_angle_min = -2.0
+spread_angle_max = 2.0
+use_hold_point_b = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_vpu0g")
+}
+
+[node name="TimerCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="TimerBurstCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="FloatPoint" type="Marker2D" parent="."]
+
+[node name="Muzzle" type="Marker2D" parent="FloatPoint"]
+position = Vector2(60, 6)
+
+[node name="SoundShoot" type="AudioStreamPlayer2D" parent="FloatPoint/Muzzle"]
+stream = ExtResource("3_orbxr")
+pitch_scale = 3.7
+
+[node name="Sprite2D" type="Sprite2D" parent="FloatPoint"]
+scale = Vector2(4, 4)
+texture = ExtResource("4_yqdqy")
+
+[node name="HoldPointA" type="Marker2D" parent="FloatPoint"]
+position = Vector2(-55, 11)
+
+[node name="HoldPointB" type="Marker2D" parent="FloatPoint"]
+position = Vector2(25, -13)
+
+[node name="Label" type="Label" parent="FloatPoint"]
+offset_left = 6.0
+offset_top = 19.0
+offset_right = 46.0
+offset_bottom = 45.0
+text = "-- / --"
+vertical_alignment = 1
+
+[node name="Magazine" type="Marker2D" parent="FloatPoint"]
+show_behind_parent = true
+position = Vector2(-28, -10)
+
+[node name="Sprite2D" type="Sprite2D" parent="FloatPoint/Magazine"]
+scale = Vector2(4, 4)
+texture = ExtResource("5_id7fb")
+centered = false
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]
+[connection signal="timeout" from="TimerCooldown" to="." method="_on_cooldown_timeout" flags=18]
+[connection signal="timeout" from="TimerBurstCooldown" to="." method="_on_burst_cooldown_timeout" flags=18]

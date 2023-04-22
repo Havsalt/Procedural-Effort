@@ -1,0 +1,73 @@
+[gd_scene load_steps=10 format=3 uid="uid://dmh4f70w1csr0"]
+
+[ext_resource type="PackedScene" uid="uid://sc0ru6is0bml" path="res://scenes/projectiles/projectile.tscn" id="1_37gtm"]
+[ext_resource type="Texture2D" uid="uid://c4y05o2r2xrge" path="res://sprites/firearms/plasma_rifle_charge.png" id="2_1kmqh"]
+[ext_resource type="AudioStream" uid="uid://byahirbxqpitb" path="res://sounds/bubbelhead_impact.wav" id="3_11epn"]
+[ext_resource type="Texture2D" uid="uid://cfpbfy0pi8mj4" path="res://sprites/ambient/icon_white.png" id="4_13k1r"]
+
+[sub_resource type="Gradient" id="Gradient_cd32e"]
+offsets = PackedFloat32Array(0, 0.733333, 0.881481, 1)
+colors = PackedColorArray(0.434091, 0.162705, 0.777091, 1, 0.290196, 0.0862745, 0.537255, 1, 0.769892, 0.678079, 0.980887, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_1te0n"]
+gradient = SubResource("Gradient_cd32e")
+
+[sub_resource type="Curve" id="Curve_ou658"]
+max_value = 2.0
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.0963855, 1.29091), 0.0, 0.0, 0, 0, Vector2(0.891566, 1.01818), -0.718615, -0.718615, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_o2k4u"]
+curve = SubResource("Curve_ou658")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_u4hfd"]
+particle_flag_align_y = true
+particle_flag_disable_z = true
+direction = Vector3(-1, 0, 0)
+flatness = 0.5
+initial_velocity_min = 100.0
+initial_velocity_max = 140.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 2.0
+scale_max = 6.0
+scale_curve = SubResource("CurveTexture_o2k4u")
+color_ramp = SubResource("GradientTexture1D_1te0n")
+
+[node name="PlasmaCharge" instance=ExtResource("1_37gtm")]
+damage = 19
+hp = 2
+speed = 1500.0
+bounce_angle = 45
+length = 36
+shadow_offset = Vector2(16, 20)
+
+[node name="Sprite2D" parent="." index="2"]
+position = Vector2(12, 0)
+scale = Vector2(4, 4)
+texture = ExtResource("2_1kmqh")
+
+[node name="CollisionShape2D" parent="." index="3"]
+position = Vector2(12, 0)
+
+[node name="SoundImpact" parent="." index="5"]
+stream = ExtResource("3_11epn")
+pitch_scale = 3.4
+
+[node name="ImpactParticles" type="GPUParticles2D" parent="." index="6"]
+emitting = false
+amount = 7
+process_material = SubResource("ParticleProcessMaterial_u4hfd")
+lifetime = 0.5
+one_shot = true
+speed_scale = 3.0
+explosiveness = 0.8
+
+[node name="Shadow" type="PointLight2D" parent="." index="7"]
+position = Vector2(21, 13)
+scale = Vector2(0.375, 0.125)
+color = Color(0.372549, 0.372549, 0.372549, 1)
+blend_mode = 1
+range_z_max = -1
+texture = ExtResource("4_13k1r")
+texture_scale = 0.5

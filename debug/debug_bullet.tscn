@@ -1,0 +1,101 @@
+[gd_scene load_steps=13 format=3 uid="uid://bk628h6xbxppj"]
+
+[ext_resource type="Script" path="res://scenes/projectiles/projectile.gd" id="1_tno8f"]
+[ext_resource type="Shader" path="res://shaders/color_override_rgb.gdshader" id="2_annqm"]
+[ext_resource type="Texture2D" uid="uid://6ia5po676wyo" path="res://icon.svg" id="3_2d4kf"]
+[ext_resource type="AudioStream" uid="uid://cri54wqnyc6n" path="res://sounds/smg_bullet_impact.wav" id="4_5e6x5"]
+[ext_resource type="Texture2D" uid="uid://cfpbfy0pi8mj4" path="res://sprites/ambient/icon_white.png" id="5_56tsr"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2jig5"]
+shader = ExtResource("2_annqm")
+shader_parameter/color = Color(1, 0.905882, 0.392157, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4g4b0"]
+size = Vector2(25, 7)
+
+[sub_resource type="Gradient" id="Gradient_gcu7t"]
+offsets = PackedFloat32Array(0, 0.733333, 0.881481, 1)
+colors = PackedColorArray(1, 0.905882, 0.392157, 1, 1, 0.92122, 0.491213, 1, 0.980392, 0.968627, 0.890196, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_k81ty"]
+gradient = SubResource("Gradient_gcu7t")
+
+[sub_resource type="Curve" id="Curve_34m0g"]
+max_value = 2.0
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.0963855, 1.29091), 0.0, 0.0, 0, 0, Vector2(0.891566, 1.01818), -0.718615, -0.718615, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_ciwf6"]
+curve = SubResource("Curve_34m0g")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_5p2ws"]
+particle_flag_align_y = true
+particle_flag_disable_z = true
+direction = Vector3(-1, 0, 0)
+flatness = 0.5
+initial_velocity_min = 80.0
+initial_velocity_max = 120.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 2.0
+scale_max = 6.0
+scale_curve = SubResource("CurveTexture_ciwf6")
+color_ramp = SubResource("GradientTexture1D_k81ty")
+
+[node name="DebugBullet" type="CharacterBody2D"]
+motion_mode = 1
+script = ExtResource("1_tno8f")
+damage = 6
+speed = 1200.0
+length = 25
+
+[node name="TimerLifetime" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+autostart = true
+
+[node name="TimerAdditionalLifetime" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_2jig5")
+scale = Vector2(0.193453, 0.053689)
+texture = ExtResource("3_2d4kf")
+offset = Vector2(64, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(12.5, 0)
+shape = SubResource("RectangleShape2D_4g4b0")
+
+[node name="Forward" type="Marker2D" parent="."]
+position = Vector2(1, 0)
+rotation = 0.785398
+gizmo_extents = 5.0
+
+[node name="SoundImpact" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(25, 0)
+stream = ExtResource("4_5e6x5")
+volume_db = -10.0
+pitch_scale = 3.0
+
+[node name="ImpactParticles" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 4
+process_material = SubResource("ParticleProcessMaterial_5p2ws")
+lifetime = 0.6
+one_shot = true
+speed_scale = 3.0
+explosiveness = 0.8
+
+[node name="Shadow" type="PointLight2D" parent="."]
+position = Vector2(16, 16)
+scale = Vector2(0.193, 0.054)
+color = Color(0.372549, 0.372549, 0.372549, 1)
+blend_mode = 1
+range_z_max = -1
+texture = ExtResource("5_56tsr")
+texture_scale = 0.8
+
+[connection signal="timeout" from="TimerLifetime" to="." method="_on_lifetime_timeout" flags=18]
+[connection signal="timeout" from="TimerAdditionalLifetime" to="." method="_on_additional_lifetime_timeout" flags=18]

@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://sc0ru6is0bml"]
+
+[ext_resource type="Script" path="res://scenes/projectiles/projectile.gd" id="1_gpqrm"]
+[ext_resource type="Texture2D" uid="uid://6ia5po676wyo" path="res://icon.svg" id="2_qb501"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xoyrn"]
+size = Vector2(36, 12)
+
+[node name="Projectile" type="CharacterBody2D"]
+collision_mask = 3
+motion_mode = 1
+script = ExtResource("1_gpqrm")
+
+[node name="TimerLifetime" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+autostart = true
+
+[node name="TimerAdditionalLifetime" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_qb501")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_xoyrn")
+
+[node name="Forward" type="Marker2D" parent="."]
+position = Vector2(1, 0)
+rotation = 0.785398
+gizmo_extents = 5.0
+
+[node name="SoundImpact" type="AudioStreamPlayer2D" parent="."]
+
+[connection signal="timeout" from="TimerLifetime" to="." method="_on_lifetime_timeout"]
+[connection signal="timeout" from="TimerAdditionalLifetime" to="." method="_on_additional_lifetime_timeout"]

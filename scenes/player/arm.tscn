@@ -1,0 +1,59 @@
+[gd_scene load_steps=9 format=3 uid="uid://bp37v1mggsqk1"]
+
+[ext_resource type="Script" path="res://scenes/player/arm.gd" id="1_8jmbk"]
+[ext_resource type="Shader" path="res://shaders/color_override_rgb.gdshader" id="2_yjm4j"]
+[ext_resource type="Texture2D" uid="uid://6ia5po676wyo" path="res://icon.svg" id="3_aq7bl"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5ovin"]
+shader = ExtResource("2_yjm4j")
+shader_parameter/color = Color(0.380392, 0.698039, 1, 1)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_s1kvj"]
+polygon = PackedVector2Array(-64.7773, -68.0067, 64.7773, -68.0067, 64.7773, 68.0067, -64.7773, 68.0067)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ff7uf"]
+polygon = PackedVector2Array(-64.0592, -68.3223, 64.0592, -68.3223, 64.0592, 68.3223, -64.0592, 68.3223)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8vcef"]
+shader = ExtResource("2_yjm4j")
+shader_parameter/color = Color(1, 1, 1, 1)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_7bi6b"]
+polygon = PackedVector2Array(-65, -65, 65, -65, 65, 65, -65, 65)
+
+[node name="Arm" type="Marker2D"]
+z_index = -1
+script = ExtResource("1_8jmbk")
+
+[node name="Upperarm" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_5ovin")
+position = Vector2(48, 0)
+scale = Vector2(0.741, 0.13234)
+texture = ExtResource("3_aq7bl")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Upperarm"]
+occluder = SubResource("OccluderPolygon2D_s1kvj")
+
+[node name="Lbow" type="Marker2D" parent="."]
+position = Vector2(96, 0)
+
+[node name="Forearm" type="Sprite2D" parent="Lbow"]
+material = SubResource("ShaderMaterial_5ovin")
+position = Vector2(36, 0)
+scale = Vector2(0.56198, 0.117092)
+texture = ExtResource("3_aq7bl")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Lbow/Forearm"]
+occluder = SubResource("OccluderPolygon2D_ff7uf")
+
+[node name="Wrist" type="Marker2D" parent="Lbow"]
+position = Vector2(72, 0)
+
+[node name="Hand" type="Sprite2D" parent="Lbow/Wrist"]
+z_index = 1
+material = SubResource("ShaderMaterial_8vcef")
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("3_aq7bl")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Lbow/Wrist/Hand"]
+occluder = SubResource("OccluderPolygon2D_7bi6b")

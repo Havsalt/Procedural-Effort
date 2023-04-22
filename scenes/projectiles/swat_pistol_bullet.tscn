@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dq0vvg3obm6a3"]
+
+[ext_resource type="PackedScene" uid="uid://78634vmxot6f" path="res://scenes/projectiles/smg_bullet.tscn" id="1_x5vql"]
+
+[node name="SwatPistolBullet" instance=ExtResource("1_x5vql")]
+damage = 12

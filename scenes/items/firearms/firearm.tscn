@@ -1,0 +1,56 @@
+[gd_scene load_steps=5 format=3 uid="uid://bajp2ebbr025w"]
+
+[ext_resource type="Script" path="res://scenes/items/firearms/firearm.gd" id="1_8y6a5"]
+[ext_resource type="Texture2D" uid="uid://6ia5po676wyo" path="res://icon.svg" id="2_il6c3"]
+
+[sub_resource type="Animation" id="Animation_dgoco"]
+resource_name = "dummy"
+length = 0.001
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vpu0g"]
+_data = {
+"dummy": SubResource("Animation_dgoco")
+}
+
+[node name="Firearm" type="Node2D"]
+script = ExtResource("1_8y6a5")
+use_hold_point_b = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_vpu0g")
+}
+
+[node name="TimerCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="TimerBurstCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="FloatPoint" type="Marker2D" parent="."]
+
+[node name="Muzzle" type="Marker2D" parent="FloatPoint"]
+
+[node name="SoundShoot" type="AudioStreamPlayer2D" parent="FloatPoint/Muzzle"]
+
+[node name="Sprite2D" type="Sprite2D" parent="FloatPoint"]
+texture = ExtResource("2_il6c3")
+
+[node name="HoldPointA" type="Marker2D" parent="FloatPoint"]
+
+[node name="HoldPointB" type="Marker2D" parent="FloatPoint"]
+
+[node name="Label" type="Label" parent="FloatPoint"]
+offset_left = -62.0
+offset_top = 75.0
+offset_right = -22.0
+offset_bottom = 101.0
+text = "-- / --"
+vertical_alignment = 1
+
+[node name="Magazine" type="Marker2D" parent="FloatPoint"]
+position = Vector2(26, 0)
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]
+[connection signal="timeout" from="TimerCooldown" to="." method="_on_cooldown_timeout"]
+[connection signal="timeout" from="TimerBurstCooldown" to="." method="_on_burst_cooldown_timeout"]

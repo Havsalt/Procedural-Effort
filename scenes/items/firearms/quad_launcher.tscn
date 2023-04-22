@@ -1,0 +1,146 @@
+[gd_scene load_steps=10 format=3 uid="uid://c2rytrad5mwj7"]
+
+[ext_resource type="Script" path="res://scenes/items/firearms/firearm.gd" id="1_8tdwc"]
+[ext_resource type="Texture2D" uid="uid://cdeusj7qmpfy6" path="res://sprites/firearms/quad_launcher.png" id="2_5jjoy"]
+[ext_resource type="PackedScene" uid="uid://cegfm8hmwr265" path="res://scenes/projectiles/quad_rocket.tscn" id="2_qnb7e"]
+[ext_resource type="AudioStream" uid="uid://bp02dlis7tpej" path="res://sounds/quad_rocket_impact.wav" id="3_a2yhp"]
+[ext_resource type="Texture2D" uid="uid://ca17jhskal3bv" path="res://sprites/firearms/quad_rocket.png" id="5_h24as"]
+
+[sub_resource type="Animation" id="Animation_ai7vi"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_dgoco"]
+resource_name = "dummy"
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_r0fah"]
+resource_name = "reload"
+length = 5.0
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FloatPoint/Rocket:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.95, 1.1, 1.2, 1.7, 2.1, 2.2, 2.7, 2.95, 3.1, 3.2, 3.7, 3.9, 4.1, 4.2, 4.7, 5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(9, -55), Vector2(9, -55), Vector2(63, -7), Vector2(48, -6), Vector2(40, -6), Vector2(63, 4), Vector2(48, 6), Vector2(40, 6), Vector2(66, -3), Vector2(64, -5), Vector2(56, -6), Vector2(53, -6), Vector2(61, 5), Vector2(65, 6), Vector2(56, 6), Vector2(52, 6), Vector2(9, -55), Vector2(40, -27)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FloatPoint/HoldPointB:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.4, 0.95, 1.2, 1.7, 1.95, 2.2, 2.7, 2.95, 3.2, 3.7, 4, 4.2, 4.5, 4.85, 5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(26, -18), Vector2(24, -63), Vector2(29, -58), Vector2(75, -14), Vector2(48, -11), Vector2(74, -4), Vector2(67, -2), Vector2(49, 0), Vector2(74, -11), Vector2(72, -13), Vector2(61, -15), Vector2(70, -2), Vector2(72, -1.22004), Vector2(60, -1), Vector2(67, -7), Vector2(53, -19), Vector2(26, -18)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("FloatPoint/Rocket:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3, 1.2, 1.7, 2.2, 2.7, 3.2, 3.7, 4.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [false, true, false, true, false, true, false, true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:rotation")
+tracks/3/interp = 4
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.3, 1.2, 3.1, 4.7, 5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.582947, -0.695246, -0.556962, -0.582947, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vpu0g"]
+_data = {
+"RESET": SubResource("Animation_ai7vi"),
+"dummy": SubResource("Animation_dgoco"),
+"reload": SubResource("Animation_r0fah")
+}
+
+[node name="QuadLauncher" type="Node2D"]
+script = ExtResource("1_8tdwc")
+mode = 1
+projectile = ExtResource("2_qnb7e")
+max_ammo = 4
+ammo = 4
+burst_rate = 8.0
+burst_count = 4
+recoil_min = Vector2(4, -2)
+recoil_max = Vector2(6, 2)
+rot_recoil_min = -0.1
+rot_recoil_max = 0.1
+spread_angle_min = -20.0
+spread_angle_max = 20.0
+shake_energy = 0.2
+use_hold_point_b = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_vpu0g")
+}
+
+[node name="TimerCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="TimerBurstCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="FloatPoint" type="Marker2D" parent="."]
+
+[node name="Muzzle" type="Marker2D" parent="FloatPoint"]
+position = Vector2(60, 0)
+
+[node name="SoundShoot" type="AudioStreamPlayer2D" parent="FloatPoint/Muzzle"]
+stream = ExtResource("3_a2yhp")
+
+[node name="Sprite2D" type="Sprite2D" parent="FloatPoint"]
+scale = Vector2(4, 4)
+texture = ExtResource("2_5jjoy")
+
+[node name="HoldPointA" type="Marker2D" parent="FloatPoint"]
+position = Vector2(47, 16)
+
+[node name="HoldPointB" type="Marker2D" parent="FloatPoint"]
+position = Vector2(26, -18)
+
+[node name="Label" type="Label" parent="FloatPoint"]
+offset_left = -2.0
+offset_top = 16.0
+offset_right = 38.0
+offset_bottom = 42.0
+text = "-- / --"
+vertical_alignment = 1
+
+[node name="Magazine" type="Marker2D" parent="FloatPoint"]
+position = Vector2(22, 0)
+
+[node name="Rocket" type="Marker2D" parent="FloatPoint"]
+visible = false
+position = Vector2(9, -55)
+
+[node name="Sprite2D" type="Sprite2D" parent="FloatPoint/Rocket"]
+position = Vector2(10, 0)
+scale = Vector2(4, 4)
+texture = ExtResource("5_h24as")
+region_enabled = true
+region_rect = Rect2(6, 1, 5, 2)
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]
+[connection signal="timeout" from="TimerCooldown" to="." method="_on_cooldown_timeout" flags=18]
+[connection signal="timeout" from="TimerBurstCooldown" to="." method="_on_burst_cooldown_timeout" flags=18]

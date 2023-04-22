@@ -1,0 +1,169 @@
+[gd_scene load_steps=22 format=3 uid="uid://cegfm8hmwr265"]
+
+[ext_resource type="PackedScene" uid="uid://sc0ru6is0bml" path="res://scenes/projectiles/projectile.tscn" id="1_sylrc"]
+[ext_resource type="Script" path="res://scenes/projectiles/quad_rocket.gd" id="2_ixmky"]
+[ext_resource type="Texture2D" uid="uid://ca17jhskal3bv" path="res://sprites/firearms/quad_rocket.png" id="2_r4tw3"]
+[ext_resource type="AudioStream" uid="uid://bp02dlis7tpej" path="res://sounds/quad_rocket_impact.wav" id="3_mhox2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_12kse"]
+size = Vector2(20, 8)
+
+[sub_resource type="Gradient" id="Gradient_8ejf2"]
+offsets = PackedFloat32Array(0, 0.147059, 0.595588, 0.897059, 1)
+colors = PackedColorArray(0.898039, 0.188235, 0.188235, 1, 0.909804, 0.847059, 0.317647, 1, 0.95712, 0.92729, 0.675603, 1, 0.454524, 0.454524, 0.454524, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_0ddin"]
+gradient = SubResource("Gradient_8ejf2")
+
+[sub_resource type="Curve" id="Curve_5j3xp"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.754491, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_383v3"]
+curve = SubResource("Curve_5j3xp")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qwv8r"]
+emission_shape = 3
+emission_box_extents = Vector3(1, 4, 1)
+particle_flag_disable_z = true
+direction = Vector3(-1, 0, 0)
+spread = 10.9
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 80.0
+initial_velocity_max = 120.0
+angular_velocity_min = -30.0
+angular_velocity_max = 30.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 2.0
+scale_max = 4.0
+scale_curve = SubResource("CurveTexture_383v3")
+color_ramp = SubResource("GradientTexture1D_0ddin")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tt0t2"]
+atlas = ExtResource("2_r4tw3")
+region = Rect2(0, 0, 12, 4)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_61ygm"]
+atlas = ExtResource("2_r4tw3")
+region = Rect2(12, 0, 12, 4)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2k7lg"]
+atlas = ExtResource("2_r4tw3")
+region = Rect2(0, 4, 12, 4)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rfc1a"]
+atlas = ExtResource("2_r4tw3")
+region = Rect2(12, 4, 12, 4)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cpmna"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tt0t2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_61ygm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2k7lg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rfc1a")
+}],
+"loop": true,
+"name": &"default",
+"speed": 16.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_h3bvi"]
+offsets = PackedFloat32Array(0, 0.125, 0.257353, 0.617647, 1)
+colors = PackedColorArray(0.899258, 0.899258, 0.899258, 1, 0, 0, 0, 1, 0.75671, 0.558889, 0.304421, 1, 0.846705, 0.20033, 0.29831, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_nspnf"]
+gradient = SubResource("Gradient_h3bvi")
+
+[sub_resource type="Curve" id="Curve_nicda"]
+max_value = 2.0
+_data = [Vector2(0, 0.490909), 0.0, 0.0, 0, 0, Vector2(0.185629, 2), 0.0, 0.0, 0, 0, Vector2(0.622754, 1.56364), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_i7lkv"]
+curve = SubResource("Curve_nicda")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_q28wm"]
+emission_shape = 1
+emission_sphere_radius = 5.0
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 270.0
+initial_velocity_max = 320.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 2.0
+scale_max = 4.0
+scale_curve = SubResource("CurveTexture_i7lkv")
+color_ramp = SubResource("GradientTexture1D_nspnf")
+collision_use_scale = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_g4gvi"]
+radius = 140.0
+
+[node name="QuadRocket" instance=ExtResource("1_sylrc")]
+script = ExtResource("2_ixmky")
+explosion_damage = 24
+damage = 16
+hp = 2
+speed = 800.0
+bounce_angle = 5
+length = 20
+enable_additional_lifetime = true
+additional_lifetime = 3.0
+
+[node name="Sprite2D" parent="." index="2"]
+position = Vector2(10, 0)
+texture = null
+
+[node name="CollisionShape2D" parent="." index="3"]
+position = Vector2(10, 0)
+shape = SubResource("RectangleShape2D_12kse")
+
+[node name="SoundImpact" parent="." index="5"]
+stream = ExtResource("3_mhox2")
+pitch_scale = 0.4
+
+[node name="Trail" type="GPUParticles2D" parent="." index="6"]
+z_index = -2
+amount = 64
+process_material = SubResource("ParticleProcessMaterial_qwv8r")
+explosiveness = 0.05
+visibility_rect = Rect2(-400, -400, 800, 800)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="7"]
+scale = Vector2(6, 4)
+sprite_frames = SubResource("SpriteFrames_cpmna")
+autoplay = "default"
+frame_progress = 0.264865
+
+[node name="ImpactParticles" type="GPUParticles2D" parent="." index="8"]
+emitting = false
+amount = 200
+process_material = SubResource("ParticleProcessMaterial_q28wm")
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.7
+
+[node name="Explosion" type="Area2D" parent="." index="9"]
+monitoring = false
+monitorable = false
+
+[node name="SightChecker" type="RayCast2D" parent="Explosion" index="0"]
+target_position = Vector2(100, 0)
+
+[node name="ExplosionRadius" type="CollisionShape2D" parent="Explosion" index="1"]
+shape = SubResource("CircleShape2D_g4gvi")
+
+[connection signal="finished" from="SoundImpact" to="." method="_on_sound_impact_finished"]
+[connection signal="body_entered" from="Explosion" to="." method="_on_explosion_body_entered"]

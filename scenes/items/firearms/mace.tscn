@@ -1,0 +1,71 @@
+[gd_scene load_steps=5 format=3 uid="uid://cmjbh1n577r5"]
+
+[ext_resource type="Script" path="res://scenes/items/firearms/firearm.gd" id="1_0l1xv"]
+[ext_resource type="Texture2D" uid="uid://de4djllhyf77f" path="res://sprites/melee/mace.png" id="2_kat4i"]
+
+[sub_resource type="Animation" id="Animation_dgoco"]
+resource_name = "dummy"
+length = 0.001
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vpu0g"]
+_data = {
+"dummy": SubResource("Animation_dgoco")
+}
+
+[node name="Mace" type="Node2D"]
+script = ExtResource("1_0l1xv")
+mode = 2
+use_projectile = false
+firerate = 2.0
+recoil_min = Vector2(-15, 15)
+recoil_max = Vector2(-17, 18)
+recoil_recovery = Vector2(0.3, 0.2)
+recoil_motion_recovery = Vector2(0.15, 0.05)
+rot_recoil_min = 0.1
+rot_recoil_max = 0.2
+rot_recoil_recovery = 0.1
+rot_recoil_motion_recovery = 0.1
+use_hold_point_a = false
+use_hold_point_b = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_vpu0g")
+}
+
+[node name="TimerCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="TimerBurstCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="FloatPoint" type="Marker2D" parent="."]
+
+[node name="Muzzle" type="Marker2D" parent="FloatPoint"]
+
+[node name="SoundShoot" type="AudioStreamPlayer2D" parent="FloatPoint/Muzzle"]
+
+[node name="Sprite2D" type="Sprite2D" parent="FloatPoint"]
+scale = Vector2(4, 4)
+texture = ExtResource("2_kat4i")
+
+[node name="HoldPointA" type="Marker2D" parent="FloatPoint"]
+position = Vector2(-23, 1)
+
+[node name="HoldPointB" type="Marker2D" parent="FloatPoint"]
+position = Vector2(-29, -3)
+
+[node name="Label" type="Label" parent="FloatPoint"]
+visible = false
+offset_top = 31.0
+offset_right = 40.0
+offset_bottom = 57.0
+text = "-- / --"
+vertical_alignment = 1
+
+[node name="Magazine" type="Marker2D" parent="FloatPoint"]
+position = Vector2(26, 0)
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished" flags=18]
+[connection signal="timeout" from="TimerCooldown" to="." method="_on_cooldown_timeout" flags=18]
+[connection signal="timeout" from="TimerBurstCooldown" to="." method="_on_burst_cooldown_timeout" flags=18]

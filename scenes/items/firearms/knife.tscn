@@ -1,0 +1,65 @@
+[gd_scene load_steps=5 format=3 uid="uid://dcg5wt8golmu0"]
+
+[ext_resource type="Script" path="res://scenes/items/firearms/firearm.gd" id="1_2euxu"]
+[ext_resource type="Texture2D" uid="uid://cguiy0weai2o2" path="res://sprites/melee/knife.png" id="2_qyaf8"]
+
+[sub_resource type="Animation" id="Animation_dgoco"]
+resource_name = "dummy"
+length = 0.001
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vpu0g"]
+_data = {
+"dummy": SubResource("Animation_dgoco")
+}
+
+[node name="Knife" type="Node2D"]
+script = ExtResource("1_2euxu")
+mode = 3
+use_projectile = false
+burst_rate = 10.0
+recoil_min = Vector2(-15, -2)
+recoil_max = Vector2(-17, 2)
+recoil_motion_recovery = Vector2(0.25, 0.15)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_vpu0g")
+}
+
+[node name="TimerCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="TimerBurstCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="FloatPoint" type="Marker2D" parent="."]
+
+[node name="Muzzle" type="Marker2D" parent="FloatPoint"]
+
+[node name="SoundShoot" type="AudioStreamPlayer2D" parent="FloatPoint/Muzzle"]
+
+[node name="Sprite2D" type="Sprite2D" parent="FloatPoint"]
+scale = Vector2(4, 4)
+texture = ExtResource("2_qyaf8")
+
+[node name="HoldPointA" type="Marker2D" parent="FloatPoint"]
+position = Vector2(-20, 0)
+
+[node name="HoldPointB" type="Marker2D" parent="FloatPoint"]
+position = Vector2(-20, 0)
+
+[node name="Label" type="Label" parent="FloatPoint"]
+visible = false
+offset_left = 7.0
+offset_top = 29.0
+offset_right = 47.0
+offset_bottom = 55.0
+text = "-- / --"
+vertical_alignment = 1
+
+[node name="Magazine" type="Marker2D" parent="FloatPoint"]
+position = Vector2(26, 0)
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished" flags=18]
+[connection signal="timeout" from="TimerCooldown" to="." method="_on_cooldown_timeout" flags=18]
+[connection signal="timeout" from="TimerBurstCooldown" to="." method="_on_burst_cooldown_timeout" flags=18]

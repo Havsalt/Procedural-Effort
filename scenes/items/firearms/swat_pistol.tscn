@@ -1,0 +1,97 @@
+[gd_scene load_steps=11 format=3 uid="uid://blstrv861klnq"]
+
+[ext_resource type="Script" path="res://scenes/items/firearms/firearm.gd" id="1_kfdif"]
+[ext_resource type="PackedScene" uid="uid://78634vmxot6f" path="res://scenes/projectiles/smg_bullet.tscn" id="2_fntyb"]
+[ext_resource type="Texture2D" uid="uid://c5xlytnyxep3s" path="res://sprites/firearms/m1911.png" id="2_sb4a8"]
+[ext_resource type="AudioStream" uid="uid://dfi7iyxat73hg" path="res://sounds/door_breach2.wav" id="3_kyjpi"]
+[ext_resource type="Shader" path="res://shaders/color_override_rgb.gdshader" id="4_m7n0p"]
+[ext_resource type="Texture2D" uid="uid://cfpbfy0pi8mj4" path="res://sprites/ambient/icon_white.png" id="4_v8hog"]
+
+[sub_resource type="Animation" id="Animation_dgoco"]
+resource_name = "dummy"
+length = 0.001
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vpu0g"]
+_data = {
+"dummy": SubResource("Animation_dgoco")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jiwil"]
+size = Vector2(20, 96)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nrl0g"]
+shader = ExtResource("4_m7n0p")
+shader_parameter/color = Color(0.117647, 0.117647, 0.117647, 1)
+
+[node name="SwatPistol" type="Node2D"]
+position = Vector2(11, 63)
+script = ExtResource("1_kfdif")
+projectile = ExtResource("2_fntyb")
+max_ammo = 15
+ammo = 15
+firerate = 8.0
+recoil_motion_recovery = Vector2(0.12, 0.17)
+rot_recoil_min = -0.07
+rot_recoil_max = 0.1
+rot_recoil_motion_recovery = 0.05
+use_hold_point_b = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_vpu0g")
+}
+
+[node name="TimerCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="TimerBurstCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="FloatPoint" type="Marker2D" parent="."]
+
+[node name="Muzzle" type="Marker2D" parent="FloatPoint"]
+position = Vector2(26, 0)
+
+[node name="SoundShoot" type="AudioStreamPlayer2D" parent="FloatPoint/Muzzle"]
+stream = ExtResource("3_kyjpi")
+pitch_scale = 2.0
+
+[node name="Sprite2D" type="Sprite2D" parent="FloatPoint"]
+scale = Vector2(4, 4)
+texture = ExtResource("2_sb4a8")
+
+[node name="HoldPointA" type="Marker2D" parent="FloatPoint"]
+position = Vector2(-20, 4)
+
+[node name="HoldPointB" type="Marker2D" parent="FloatPoint"]
+position = Vector2(-13, -84)
+
+[node name="Label" type="Label" parent="FloatPoint"]
+offset_left = -6.0
+offset_top = 17.0
+offset_right = 34.0
+offset_bottom = 43.0
+text = "-- / --"
+vertical_alignment = 1
+
+[node name="Magazine" type="Marker2D" parent="FloatPoint"]
+position = Vector2(-15, 0)
+
+[node name="Shield" type="CharacterBody2D" parent="FloatPoint"]
+position = Vector2(4, -93)
+scale = Vector2(1, 1.5)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FloatPoint/Shield"]
+shape = SubResource("RectangleShape2D_jiwil")
+
+[node name="Sprite2D" type="Sprite2D" parent="FloatPoint/Shield"]
+material = SubResource("ShaderMaterial_nrl0g")
+position = Vector2(1.60933e-06, 2.32458e-06)
+scale = Vector2(0.15625, 0.75)
+texture = ExtResource("4_v8hog")
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished" flags=18]
+[connection signal="timeout" from="TimerCooldown" to="." method="_on_cooldown_timeout" flags=18]
+[connection signal="timeout" from="TimerBurstCooldown" to="." method="_on_burst_cooldown_timeout" flags=18]

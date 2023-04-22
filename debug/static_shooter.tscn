@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://7qiuehu13x61"]
+
+[ext_resource type="Script" path="res://debug/static_shooter.gd" id="1_48ibf"]
+[ext_resource type="PackedScene" uid="uid://4irmvqpiik2w" path="res://scenes/items/firearms/smg.tscn" id="2_m8s8v"]
+
+[node name="StaticShooter" type="Node2D"]
+script = ExtResource("1_48ibf")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+root_path = NodePath(".")
+public_visibility = false
+
+[node name="SMG" parent="." instance=ExtResource("2_m8s8v")]
+active = true

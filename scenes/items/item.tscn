@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://u1t8bu0fdvt8"]
+
+[ext_resource type="Script" path="res://scenes/items/item.gd" id="1_p4yrx"]
+
+[node name="Item" type="Node2D"]
+script = ExtResource("1_p4yrx")
+
+[node name="HoldPointA" type="Marker2D" parent="."]
+
+[node name="HoldPointB" type="Marker2D" parent="."]
