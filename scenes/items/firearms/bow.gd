@@ -18,6 +18,7 @@ extends Firearm
 @onready var drag_min: Marker2D = $DragMin
 @onready var drag_max: Marker2D = $DragMax
 @onready var timer_drag_interval: Timer = $TimerDragInterval
+@onready var shadow: PointLight2D = $FloatPoint/MainSprite/Shadow
 @onready var rest_position = position
 
 var local_projectile = preload("res://scenes/projectiles/arrow.tscn")
@@ -26,10 +27,10 @@ var bow_motion := Vector2()
 
 
 func _ready() -> void:
-	if not owner is Player:
-		set_process(false)
-		return # deactivation if not used by a player
-	
+	shadow.set_as_top_level(true)
+	shadow.global_scale = sprite.global_scale
+	shadow.global_position = sprite.global_position + Vector2(16, 16) # NOTE: copy from arrow `shadow_offset`
+	shadow.global_rotation = sprite.global_rotation
 	if not active:
 		hide()
 	timer_cooldown.wait_time = 1.0 / firerate
@@ -38,25 +39,14 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
+	shadow.global_position = sprite.global_position + Vector2(16, 16) # NOTE: copy from arrow `shadow_offset`
+	shadow.global_rotation = sprite.global_rotation
+	
 	if active and not animation_player.is_playing() or animation_player.assigned_animation == "reload":
 		# override position
 		hold_point_b.global_position = holding_point.global_position
 	
-	if not owner.synchronizer.is_multiplayer_authority():
-		label.visible = false
-		return
-	
 	if active and not (animation_player.is_playing() and animation_player.current_animation == "reload"):
-		if Input.is_action_just_pressed("1") and not is_visible_in_tree() and not animation_player.is_playing():
-			owner.reverse_next_item_switch = false
-			equip()
-		elif Input.is_action_just_pressed("1") and is_visible_in_tree() and not animation_player.is_playing():
-			owner.reverse_next_item_switch = true
-			unequip()
-		elif Input.is_action_just_pressed("2") and is_visible_in_tree() and not animation_player.is_playing():
-			owner.reverse_next_item_switch = false
-			unequip()
-		
 		if not is_visible_in_tree():
 			return
 		
@@ -80,6 +70,7 @@ func _process(_delta: float) -> void:
 					var instance: Projectile = local_projectile.instantiate()
 					owner.camera.shake(shake_energy * bonus_percent) # apply some camera shake
 					instance.add_collision_exception_with(owner)
+					instance.damage = damage
 					instance.master_nickname = Globals.nickname
 					owner.add_child(instance, true)
 					instance.global_position = float_point.global_position
@@ -93,7 +84,7 @@ func _process(_delta: float) -> void:
 					# reset arrow recoil and rotation
 					float_point.rotation = 0
 					motion = Vector2.ZERO
-					rot_motion = 0
+					rotational_motion = 0
 					# bow is single fire
 					reload()
 			elif not charging: # lerp back when fired
@@ -104,12 +95,12 @@ func _process(_delta: float) -> void:
 	float_point.position.y = lerp(float_point.position.y, 0.0, recoil_recovery.y)
 	float_point.position += motion
 	float_point.rotation = lerp_angle(float_point.rotation, 0.0, rot_recoil_recovery)
-	float_point.rotation += rot_motion
+	float_point.rotation += rotational_motion
 	motion.x = lerp(motion.x, 0.0, recoil_motion_recovery.x)
 	motion.y = lerp(motion.y, 0.0, recoil_motion_recovery.y)
-	rot_motion = lerp(rot_motion, 0.0, rot_recoil_motion_recovery)
+	rotational_motion = lerp(rotational_motion, 0.0, rot_recoil_motion_recovery)
 	# handle bow position change
-	if active and not animation_player.is_playing() or animation_player.assigned_animation == "reload":
+	if active and (not animation_player.is_playing() or animation_player.assigned_animation == "reload") and is_visible_in_tree():
 		# override position
 		hold_point_b.global_position = holding_point.global_position
 	position.x = lerp(position.x, rest_position.x, bow_position_recovery.x)

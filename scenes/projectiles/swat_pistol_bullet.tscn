@@ -1,6 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://dq0vvg3obm6a3"]
+[gd_scene load_steps=4 format=3 uid="uid://dq0vvg3obm6a3"]
 
 [ext_resource type="PackedScene" uid="uid://78634vmxot6f" path="res://scenes/projectiles/smg_bullet.tscn" id="1_x5vql"]
+[ext_resource type="Shader" path="res://shaders/color_override_rgb.gdshader" id="2_g5ohc"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vkuh2"]
+shader = ExtResource("2_g5ohc")
+shader_parameter/color = Color(1, 0.811765, 0.392157, 1)
 
 [node name="SwatPistolBullet" instance=ExtResource("1_x5vql")]
 damage = 12
+speed = 1400.0
+
+[node name="Sprite2D" parent="." index="2"]
+material = SubResource("ShaderMaterial_vkuh2")

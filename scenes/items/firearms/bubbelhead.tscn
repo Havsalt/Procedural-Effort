@@ -84,7 +84,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("FloatPoint/Sprite2D:scale")
+tracks/6/path = NodePath("FloatPoint/MainSprite:scale")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -259,7 +259,7 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("FloatPoint/Sprite2D:scale")
+tracks/7/path = NodePath("FloatPoint/MainSprite:scale")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
@@ -412,7 +412,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("FloatPoint/Sprite2D:scale")
+tracks/2/path = NodePath("FloatPoint/MainSprite:scale")
 tracks/2/interp = 2
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -530,7 +530,7 @@ _data = {
 [node name="Bubbelhead" type="Node2D"]
 position = Vector2(-2, 0)
 script = ExtResource("1_gd4lt")
-mode = 1
+firing_mode = 1
 projectile = ExtResource("2_fb7ap")
 max_ammo = 10
 ammo = 10
@@ -546,6 +546,7 @@ rot_recoil_recovery = 0.7
 rot_recoil_motion_recovery = 0.2
 spread_angle_min = -6.0
 spread_angle_max = 6.0
+damage = 8
 use_hold_point_b = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -570,7 +571,7 @@ position = Vector2(38, 0)
 stream = ExtResource("3_ej5wm")
 volume_db = -3.0
 
-[node name="Sprite2D" type="Sprite2D" parent="FloatPoint"]
+[node name="MainSprite" type="Sprite2D" parent="FloatPoint"]
 scale = Vector2(4, 4)
 texture = ExtResource("2_a58k8")
 

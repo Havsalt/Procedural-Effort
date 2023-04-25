@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://cvx7ni8rpnc0f"]
+
+[ext_resource type="PackedScene" uid="uid://bffxsekp21i8j" path="res://scenes/items/weapon.tscn" id="1_3dcxg"]
+[ext_resource type="Script" path="res://scenes/items/melee/melee_weapon.gd" id="2_ip2pl"]
+
+[node name="MeleeWeapon" instance=ExtResource("1_3dcxg")]
+script = ExtResource("2_ip2pl")
+charge_multiplier = 1.5
+charge_time = 1.0

@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://c74ru0glfdakw"]
+
+[ext_resource type="PackedScene" uid="uid://cnpel23puic7m" path="res://scenes/items/armour/armour.tscn" id="1_hpgle"]
+[ext_resource type="Texture2D" uid="uid://cfpbfy0pi8mj4" path="res://sprites/ambient/icon_white.png" id="2_02nn8"]
+[ext_resource type="Shader" path="res://shaders/color_override_rgb.gdshader" id="2_rnnj3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fi5dw"]
+size = Vector2(72, 16)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sbag3"]
+shader = ExtResource("2_rnnj3")
+shader_parameter/color = Color(0.101961, 0.101961, 0.101961, 1)
+
+[node name="ArmPlateR" instance=ExtResource("1_hpgle")]
+label_behaviour = 1
+max_hp = 25
+hp = 25
+active = true
+
+[node name="Defence" parent="FloatPoint" index="3"]
+position = Vector2(0, 8)
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FloatPoint/Defence" index="0"]
+shape = SubResource("RectangleShape2D_fi5dw")
+
+[node name="DefenceSprite" parent="FloatPoint/Defence" index="1"]
+material = SubResource("ShaderMaterial_sbag3")
+position = Vector2(2.38419e-07, -2.68221e-07)
+scale = Vector2(0.5625, 0.125)
+texture = ExtResource("2_02nn8")
+
+[node name="HPPivot" parent="FloatPoint/Defence" index="2"]
+position = Vector2(-28, 29)
+rotation = -0.00296347
+
+[node name="Label" parent="FloatPoint/Defence/HPPivot/HPAnchor" index="0"]
+offset_left = -21.0
+offset_top = -14.0
+offset_right = 25.0
+offset_bottom = 15.0
+theme_override_font_sizes/font_size = 16

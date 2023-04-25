@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bffxsekp21i8j"]
+
+[ext_resource type="PackedScene" uid="uid://u1t8bu0fdvt8" path="res://scenes/items/item.tscn" id="1_73fou"]
+[ext_resource type="Script" path="res://scenes/items/weapon.gd" id="2_4wexg"]
+
+[node name="Weapon" instance=ExtResource("1_73fou")]
+script = ExtResource("2_4wexg")
+damage = 1
+
+[node name="TimerCooldown" type="Timer" parent="." index="1"]

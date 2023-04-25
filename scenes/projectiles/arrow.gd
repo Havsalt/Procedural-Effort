@@ -4,7 +4,8 @@ extends Projectile
 
 func destroy(collision: KinematicCollision2D) -> void:
 	super.destroy(collision)
-	if collision.get_collider() is Player:
+	if collision.get_collider() is Player or collision.get_collider() is Armour:
+		z_index -= 2 # so it shows behind arms
 		queue_free()
 	# additional lifetime will be on
 #	set_as_top_level(false)

@@ -1,42 +1,188 @@
-[gd_scene load_steps=11 format=3 uid="uid://blstrv861klnq"]
+[gd_scene load_steps=12 format=3 uid="uid://blstrv861klnq"]
 
-[ext_resource type="Script" path="res://scenes/items/firearms/firearm.gd" id="1_kfdif"]
-[ext_resource type="PackedScene" uid="uid://78634vmxot6f" path="res://scenes/projectiles/smg_bullet.tscn" id="2_fntyb"]
+[ext_resource type="Script" path="res://scenes/items/firearms/swat_pistol.gd" id="1_c3m5x"]
+[ext_resource type="PackedScene" uid="uid://dq0vvg3obm6a3" path="res://scenes/projectiles/swat_pistol_bullet.tscn" id="2_kyf6u"]
 [ext_resource type="Texture2D" uid="uid://c5xlytnyxep3s" path="res://sprites/firearms/m1911.png" id="2_sb4a8"]
+[ext_resource type="Script" path="res://scenes/items/firearms/float_point_sync.gd" id="3_bo8a5"]
 [ext_resource type="AudioStream" uid="uid://dfi7iyxat73hg" path="res://sounds/door_breach2.wav" id="3_kyjpi"]
-[ext_resource type="Shader" path="res://shaders/color_override_rgb.gdshader" id="4_m7n0p"]
-[ext_resource type="Texture2D" uid="uid://cfpbfy0pi8mj4" path="res://sprites/ambient/icon_white.png" id="4_v8hog"]
+[ext_resource type="PackedScene" uid="uid://ccttykdnc777f" path="res://scenes/items/armour/swat_shield.tscn" id="5_jjudf"]
+
+[sub_resource type="Animation" id="Animation_4rqku"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(25, 37)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ShieldAttatchment:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-50, -68)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("FloatPoint/Label:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_dgoco"]
 resource_name = "dummy"
 length = 0.001
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_vpu0g"]
-_data = {
-"dummy": SubResource("Animation_dgoco")
+[sub_resource type="Animation" id="Animation_wnvu8"]
+resource_name = "equip"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.1, 0.2, 0.3, 0.4, 0.5, 0.7, 0.9, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-93, -2), Vector2(25, 37), Vector2(45, 43), Vector2(38, 39), Vector2(40, 38), Vector2(35, 35), Vector2(24, 37), Vector2(25, 37)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("FloatPoint/Label:self_modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.5, 0.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_jiwil"]
-size = Vector2(20, 96)
+[sub_resource type="Animation" id="Animation_njl0i"]
+resource_name = "unequip"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.5, 0.7, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(25, 37), Vector2(-93, -2), Vector2(-120.042, -10.9375), Vector2(25, 37)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.7, 0.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ShieldAttatchment:position")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5, 0.7, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-50, -68), Vector2(-37, -73), Vector2(-39, -74), Vector2(84, -41), Vector2(104.042, -26.0625), Vector2(-50, -68)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("FloatPoint/Label:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.2, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_nrl0g"]
-shader = ExtResource("4_m7n0p")
-shader_parameter/color = Color(0.117647, 0.117647, 0.117647, 1)
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vpu0g"]
+_data = {
+"RESET": SubResource("Animation_4rqku"),
+"dummy": SubResource("Animation_dgoco"),
+"equip": SubResource("Animation_wnvu8"),
+"unequip": SubResource("Animation_njl0i")
+}
 
 [node name="SwatPistol" type="Node2D"]
-position = Vector2(11, 63)
-script = ExtResource("1_kfdif")
-projectile = ExtResource("2_fntyb")
+position = Vector2(25, 37)
+script = ExtResource("1_c3m5x")
+firing_mode = 1
+projectile = ExtResource("2_kyf6u")
 max_ammo = 15
 ammo = 15
-firerate = 8.0
-recoil_motion_recovery = Vector2(0.12, 0.17)
-rot_recoil_min = -0.07
-rot_recoil_max = 0.1
-rot_recoil_motion_recovery = 0.05
+firerate = 4.0
+recoil_min = Vector2(10, -2)
+recoil_max = Vector2(12, 2)
+recoil_recovery = Vector2(0.7, 0.3)
+recoil_motion_recovery = Vector2(0.05, 0.15)
+rot_recoil_min = -0.12
+rot_recoil_max = 0.12
+rot_recoil_recovery = 0.1
+spread_angle_min = -7.0
+spread_angle_max = 7.0
+shake_energy = 0.15
+damage = 12
 use_hold_point_b = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+playback_default_blend_time = 0.1
 libraries = {
 "": SubResource("AnimationLibrary_vpu0g")
 }
@@ -48,6 +194,7 @@ one_shot = true
 one_shot = true
 
 [node name="FloatPoint" type="Marker2D" parent="."]
+script = ExtResource("3_bo8a5")
 
 [node name="Muzzle" type="Marker2D" parent="FloatPoint"]
 position = Vector2(26, 0)
@@ -56,7 +203,7 @@ position = Vector2(26, 0)
 stream = ExtResource("3_kyjpi")
 pitch_scale = 2.0
 
-[node name="Sprite2D" type="Sprite2D" parent="FloatPoint"]
+[node name="MainSprite" type="Sprite2D" parent="FloatPoint"]
 scale = Vector2(4, 4)
 texture = ExtResource("2_sb4a8")
 
@@ -64,7 +211,7 @@ texture = ExtResource("2_sb4a8")
 position = Vector2(-20, 4)
 
 [node name="HoldPointB" type="Marker2D" parent="FloatPoint"]
-position = Vector2(-13, -84)
+position = Vector2(-15, -6)
 
 [node name="Label" type="Label" parent="FloatPoint"]
 offset_left = -6.0
@@ -77,20 +224,10 @@ vertical_alignment = 1
 [node name="Magazine" type="Marker2D" parent="FloatPoint"]
 position = Vector2(-15, 0)
 
-[node name="Shield" type="CharacterBody2D" parent="FloatPoint"]
-position = Vector2(4, -93)
-scale = Vector2(1, 1.5)
-collision_layer = 2
-collision_mask = 0
+[node name="ShieldAttatchment" type="Marker2D" parent="."]
+position = Vector2(-50, -68)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="FloatPoint/Shield"]
-shape = SubResource("RectangleShape2D_jiwil")
-
-[node name="Sprite2D" type="Sprite2D" parent="FloatPoint/Shield"]
-material = SubResource("ShaderMaterial_nrl0g")
-position = Vector2(1.60933e-06, 2.32458e-06)
-scale = Vector2(0.15625, 0.75)
-texture = ExtResource("4_v8hog")
+[node name="SwatShield" parent="ShieldAttatchment" instance=ExtResource("5_jjudf")]
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished" flags=18]
 [connection signal="timeout" from="TimerCooldown" to="." method="_on_cooldown_timeout" flags=18]

@@ -6,7 +6,7 @@ extends Node
 
 
 func on_respawn_requested(from: Player) -> void:
-	prints("Player", from.name, "requested respawn")
+	prints("+ Player", from.name, "requested respawn")
 	var remaining = spawnpoints.duplicate()
 	var spawnpoint: Spawnpoint = remaining[randint(0, spawnpoints.size() -1)]
 	remaining.erase(spawnpoint)
@@ -18,11 +18,20 @@ func on_respawn_requested(from: Player) -> void:
 		from.global_position = Vector2.ZERO # spawn in center of the world
 		return
 	# process on succsess
-	prints("Found point", spawnpoint.name)
+	prints("x Found point", spawnpoint.name)
 	spawnpoint.respawn_player(from)
+	var spawnpoint_idx = spawnpoints.find(spawnpoint)
+	rpc("remote_respawn_player", from.name, spawnpoint_idx)
 
 
 func randint(a: int, b: int) -> int:
 	if (b - a +1) == 0:
 		return a
 	return randi() % (b - a +1) + a
+
+
+@rpc("reliable", "call_remote", "any_peer")
+func remote_respawn_player(node_name: String, location_idx: int) -> void:
+	var player = get_parent().get_node(node_name)
+	var spawnpoint = spawnpoints[location_idx]
+	spawnpoint.respawn_player(player)

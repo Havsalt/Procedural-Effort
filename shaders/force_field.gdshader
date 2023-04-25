@@ -3,7 +3,7 @@ shader_type canvas_item;
 // Gonkee's fog shader for Godot 3 - full tutorial https://youtu.be/QEaTsz_0o44
 // If you use this shader, I would prefer it if you gave credit to me and my channel
 
-uniform vec4 color : hint_color = vec4(0.35, 0.48, 0.95, 1.0);
+uniform vec4 color : source_color = vec4(0.35, 0.48, 0.95, 1.0);
 uniform float radius = 0.5;
 uniform float alfa_factor = 0.5;
 uniform float time_scale = 0.5;
@@ -75,7 +75,7 @@ void fragment() {
 	final *= apolish(UV);
 	
 	if (insideCircle(UV, radius)) {
-		COLOR = vec4(color.rgb, (final * 20.0) * alfa_factor);
+		COLOR = vec4(color.rgb, (final * 20.0) * alfa_factor) * color.a;
 	} else {
 		COLOR = vec4(0);
 		//COLOR = vec4(color.rgb, final * alfa_factor);

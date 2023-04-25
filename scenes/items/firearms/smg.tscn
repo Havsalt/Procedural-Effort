@@ -361,7 +361,7 @@ _data = {
 [node name="SMG" type="Node2D"]
 position = Vector2(32, 24)
 script = ExtResource("1_o01sm")
-mode = 2
+firing_mode = 2
 projectile = ExtResource("2_m2b2p")
 max_ammo = 24
 ammo = 24
@@ -373,6 +373,7 @@ rot_recoil_max = 0.1
 rot_recoil_recovery = 0.55
 rot_recoil_motion_recovery = 0.05
 shake_energy = 0.08
+damage = 6
 use_hold_point_b = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -398,7 +399,7 @@ stream = ExtResource("3_4tmut")
 volume_db = 10.0
 max_polyphony = 2
 
-[node name="Sprite2D" type="Sprite2D" parent="FloatPoint"]
+[node name="MainSprite" type="Sprite2D" parent="FloatPoint"]
 position = Vector2(-16, 0)
 scale = Vector2(4, 4)
 texture = ExtResource("3_6h33l")

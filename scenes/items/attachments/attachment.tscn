@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://c1adryovq3kp0"]
+
+[ext_resource type="PackedScene" uid="uid://u1t8bu0fdvt8" path="res://scenes/items/item.tscn" id="1_0xav8"]
+[ext_resource type="Script" path="res://scenes/items/attachments/attachment.gd" id="2_ax7wg"]
+
+[node name="Attachment" instance=ExtResource("1_0xav8")]
+script = ExtResource("2_ax7wg")
+override = {}
+use_hold_point_a = false

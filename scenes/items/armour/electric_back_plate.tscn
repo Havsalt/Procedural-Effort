@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=3 uid="uid://c4v40udy3u1vf"]
+
+[ext_resource type="PackedScene" uid="uid://cnpel23puic7m" path="res://scenes/items/armour/armour.tscn" id="1_18uk1"]
+[ext_resource type="Shader" path="res://shaders/color_override_rgb.gdshader" id="2_6cr7w"]
+[ext_resource type="Texture2D" uid="uid://cfpbfy0pi8mj4" path="res://sprites/ambient/icon_white.png" id="2_82fje"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nxbvf"]
+size = Vector2(22, 119)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jhdwt"]
+shader = ExtResource("2_6cr7w")
+shader_parameter/color = Color(0.470588, 0.568627, 0.792157, 1)
+
+[node name="ElectricBackPlate" instance=ExtResource("1_18uk1")]
+break_mode = 1
+label_behaviour = 1
+max_hp = 1
+hp = 1
+active = true
+
+[node name="AnimationPlayer" parent="." index="0"]
+libraries = {}
+
+[node name="TimerRegenerationDelay" parent="." index="1"]
+one_shot = true
+
+[node name="Defence" parent="FloatPoint" index="3"]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FloatPoint/Defence" index="0"]
+shape = SubResource("RectangleShape2D_nxbvf")
+
+[node name="Sprite2D" parent="FloatPoint/Defence" index="1"]
+material = SubResource("ShaderMaterial_jhdwt")
+scale = Vector2(0.171875, 0.9375)
+texture = ExtResource("2_82fje")
+
+[node name="HPPivot" parent="FloatPoint/Defence" index="2"]
+position = Vector2(-31, 72)
+
+[node name="Label" parent="FloatPoint/Defence/HPPivot/HPAnchor" index="0"]
+visible = false
+offset_left = -19.0
+offset_top = -13.0
+offset_right = 22.0
+offset_bottom = 13.0
+theme_override_font_sizes/font_size = 16

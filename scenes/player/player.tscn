@@ -1,12 +1,12 @@
-[gd_scene load_steps=21 format=3 uid="uid://lhj1i6i3n3m5"]
+[gd_scene load_steps=21 format=3 uid="uid://du15kyjg6ixob"]
 
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_rmgix"]
 [ext_resource type="Shader" path="res://shaders/color_override_rgb.gdshader" id="2_1fj5r"]
 [ext_resource type="Texture2D" uid="uid://6ia5po676wyo" path="res://icon.svg" id="3_md7v2"]
 [ext_resource type="Script" path="res://scenes/player/camera_shake.gd" id="4_85w7j"]
 [ext_resource type="PackedScene" uid="uid://bp37v1mggsqk1" path="res://scenes/player/arm.tscn" id="4_nusvh"]
-[ext_resource type="PackedScene" uid="uid://dcg5wt8golmu0" path="res://scenes/items/firearms/knife.tscn" id="5_877m5"]
 [ext_resource type="PackedScene" uid="uid://1tahulpvv1yx" path="res://scenes/items/firearms/bow.tscn" id="5_qlaea"]
+[ext_resource type="PackedScene" uid="uid://c74ru0glfdakw" path="res://scenes/items/armour/arm_plate_r.tscn" id="6_0vfkd"]
 [ext_resource type="PackedScene" uid="uid://blstrv861klnq" path="res://scenes/items/firearms/swat_pistol.tscn" id="6_c06jj"]
 [ext_resource type="PackedScene" uid="uid://4irmvqpiik2w" path="res://scenes/items/firearms/smg.tscn" id="7_t3c88"]
 [ext_resource type="PackedScene" uid="uid://dqkbgvgw765b1" path="res://scenes/items/firearms/bubbelhead.tscn" id="8_2jd4w"]
@@ -173,6 +173,16 @@ shape = SubResource("RectangleShape2D_tely7")
 position = Vector2(168, 64)
 shape = SubResource("CircleShape2D_sk15u")
 
+[node name="ContainerPlateR" type="Marker2D" parent="."]
+show_behind_parent = true
+position = Vector2(132, 65)
+
+[node name="ArmPlateR" parent="ContainerPlateR" instance=ExtResource("6_0vfkd")]
+
+[node name="ContainerElectricBackPlate" type="Marker2D" parent="."]
+show_behind_parent = true
+position = Vector2(-64, 0)
+
 [node name="ItemsPivot" type="Node2D" parent="."]
 
 [node name="HPPivot" type="Marker2D" parent="ItemsPivot"]
@@ -194,8 +204,6 @@ vertical_alignment = 1
 z_index = -1
 position = Vector2(128, 0)
 
-[node name="SwatPistol" parent="ItemsPivot/ItemsContainer" instance=ExtResource("6_c06jj")]
-
 [node name="SMG" parent="ItemsPivot/ItemsContainer" instance=ExtResource("7_t3c88")]
 
 [node name="Bow" parent="ItemsPivot/ItemsContainer" instance=ExtResource("5_qlaea")]
@@ -204,5 +212,4 @@ shake_energy = 0.3
 [node name="Bubbelhead" parent="ItemsPivot/ItemsContainer" instance=ExtResource("8_2jd4w")]
 shake_energy = 0.18
 
-[node name="Knife" parent="ItemsPivot/ItemsContainer" instance=ExtResource("5_877m5")]
-position = Vector2(6, 36)
+[node name="SwatPistol" parent="ItemsPivot/ItemsContainer" instance=ExtResource("6_c06jj")]

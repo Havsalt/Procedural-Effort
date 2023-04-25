@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bajp2ebbr025w"]
+[gd_scene load_steps=6 format=3 uid="uid://bajp2ebbr025w"]
 
 [ext_resource type="Script" path="res://scenes/items/firearms/firearm.gd" id="1_8y6a5"]
 [ext_resource type="Texture2D" uid="uid://6ia5po676wyo" path="res://icon.svg" id="2_il6c3"]
+[ext_resource type="Script" path="res://scenes/items/firearms/float_point_sync.gd" id="2_t6uji"]
 
 [sub_resource type="Animation" id="Animation_dgoco"]
 resource_name = "dummy"
@@ -28,6 +29,7 @@ one_shot = true
 one_shot = true
 
 [node name="FloatPoint" type="Marker2D" parent="."]
+script = ExtResource("2_t6uji")
 
 [node name="Muzzle" type="Marker2D" parent="FloatPoint"]
 

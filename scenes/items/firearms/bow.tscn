@@ -280,6 +280,7 @@ rot_recoil_max = 0.03
 rot_recoil_recovery = 0.4
 spread_angle_min = -1.0
 spread_angle_max = 1.0
+damage = 34
 use_hold_point_b = true
 metadata/_edit_horizontal_guides_ = []
 
@@ -307,13 +308,13 @@ stream = ExtResource("3_y3xf6")
 volume_db = 15.0
 pitch_scale = 2.0
 
-[node name="Sprite2D" type="Sprite2D" parent="FloatPoint"]
+[node name="MainSprite" type="Sprite2D" parent="FloatPoint"]
 position = Vector2(40, 0)
 rotation = 0.785398
 scale = Vector2(4, 4)
 texture = ExtResource("4_vb2ve")
 
-[node name="PointLight2D" type="PointLight2D" parent="FloatPoint/Sprite2D"]
+[node name="Shadow" type="PointLight2D" parent="FloatPoint/MainSprite"]
 position = Vector2(15, 0)
 blend_mode = 1
 range_z_max = -8

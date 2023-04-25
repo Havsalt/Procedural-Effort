@@ -1,10 +1,11 @@
-class_name FloatPoint
+class_name FloatPointSync
 extends Marker2D
 
 
 func _process(_delta: float) -> void:
-	rpc("remote_set_position", position)
-	rpc("remote_set_rotation", rotation)
+	if owner.active: # `owner` has to be of type Item
+		rpc("remote_set_position", position)
+		rpc("remote_set_rotation", rotation)
 
 
 @rpc("unreliable", "call_remote", "any_peer")
