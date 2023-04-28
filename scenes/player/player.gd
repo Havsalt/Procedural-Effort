@@ -20,6 +20,7 @@ const CONTAINER_TURNING_RATE := 0.15
 const ARM_R_REST_POSITION = Vector2(128, 32)
 const ARM_L_REST_POSITION = Vector2(128, -32)
 const INACTIVE_ARM_REST_RATE := 0.10
+const HP_LABEL_REST_RATE = 0.80
 const COLORS = [
 	Color.LIGHT_SKY_BLUE,
 	Color("purple"),
@@ -103,7 +104,7 @@ func _ready() -> void:
 	for item in items:
 		item.connect("equipped", _on_item_equipped)
 		item.connect("unequipped", _on_item_unequipped)
-	items_pivot.set_as_top_level(true)
+#	items_pivot.set_as_top_level(true) # DISABLED
 	items_pivot.global_position = global_position
 	held_item.active = true
 	held_item.visible = true # just in case
@@ -162,7 +163,7 @@ func _physics_process(delta: float) -> void:
 
 func _process(_delta: float) -> void:
 	# handle hp label
-	hp_anchor.global_position = hp_pivot.global_position
+	hp_anchor.global_position = hp_anchor.global_position.lerp(hp_pivot.global_position, HP_LABEL_REST_RATE)
 	items_pivot.global_position = global_position
 	# update arm shape segments
 	arm_l_a.global_position = arm_l.upperarm.global_position
@@ -180,11 +181,6 @@ func _process(_delta: float) -> void:
 	
 	if not is_multiplayer_authority() or held_item.animation_player.is_playing():
 		return
-#	# handle item change
-#	if Input.is_action_just_pressed("1") and not held_item.is_visible_in_tree() and not held_item.animation_player.is_playing():
-#		held_item.equip()
-#	elif Input.is_action_just_pressed("2") and held_item.is_visible_in_tree() and not held_item.animation_player.is_playing():
-#		held_item.unequip()
 	
 	if Input.is_action_pressed("1") and not held_item == items[0]:
 		set_item_from_idx(0)
@@ -218,6 +214,7 @@ func _on_item_unequipped(_item: Item) -> void:
 
 
 func respawn(where: Spawnpoint) -> void:
+	held_item.show()
 	animation_player.play("respawn")
 	global_position = where.animated_position.global_position
 	camera.set_shake(0)

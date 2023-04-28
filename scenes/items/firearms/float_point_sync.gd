@@ -3,7 +3,7 @@ extends Marker2D
 
 
 func _process(_delta: float) -> void:
-	if owner.active: # `owner` has to be of type Item
+	if owner.active and is_multiplayer_authority(): # `owner` has to be of type Item
 		rpc("remote_set_position", position)
 		rpc("remote_set_rotation", rotation)
 

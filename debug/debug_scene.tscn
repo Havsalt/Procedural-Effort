@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://cra58ffanuqf6"]
+
+[ext_resource type="Texture2D" uid="uid://cfpbfy0pi8mj4" path="res://sprites/ambient/icon_white.png" id="1_6tgtd"]
+[ext_resource type="PackedScene" uid="uid://dcg5wt8golmu0" path="res://scenes/items/melee/knife_test.tscn" id="1_pgqag"]
+[ext_resource type="PackedScene" uid="uid://bw5g1eltwk7e" path="res://scenes/items/melee/katana_test.tscn" id="2_r2dyv"]
+[ext_resource type="PackedScene" uid="uid://cmjbh1n577r5" path="res://scenes/items/melee/mace_test.tscn" id="3_0m6dx"]
+
+[node name="DebugScene" type="Node"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(0.341176, 0.588235, 0.368627, 1)
+scale = Vector2(6.40851, 4.70001)
+texture = ExtResource("1_6tgtd")
+
+[node name="Katana" parent="." instance=ExtResource("2_r2dyv")]
+position = Vector2(-3, -35)
+active = true
+
+[node name="Mace" parent="." instance=ExtResource("3_0m6dx")]
+position = Vector2(-28, 38)
+active = true
+
+[node name="Knife" parent="." instance=ExtResource("1_pgqag")]
+position = Vector2(-45, 1)
+active = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(2, 0)
+zoom = Vector2(3, 3)

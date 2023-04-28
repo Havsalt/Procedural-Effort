@@ -13,7 +13,7 @@ config_version=5
 config/name="Procedural Effort"
 run/main_scene="res://scenes/main/main.tscn"
 config/features=PackedStringArray("4.0", "GL Compatibility")
-config/icon="res://icon.png"
+config/icon="res://icon_scaled.png"
 
 [autoload]
 
