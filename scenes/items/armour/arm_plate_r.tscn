@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://c74ru0glfdakw"]
+[gd_scene load_steps=8 format=3 uid="uid://c74ru0glfdakw"]
 
 [ext_resource type="PackedScene" uid="uid://cnpel23puic7m" path="res://scenes/items/armour/armour.tscn" id="1_hpgle"]
 [ext_resource type="Texture2D" uid="uid://cfpbfy0pi8mj4" path="res://sprites/ambient/icon_white.png" id="2_02nn8"]
+[ext_resource type="Script" path="res://scenes/items/armour/arm_plate_r.gd" id="2_4lysd"]
 [ext_resource type="Shader" path="res://shaders/color_override_rgb.gdshader" id="2_rnnj3"]
+[ext_resource type="Texture2D" uid="uid://c4y05o2r2xrge" path="res://sprites/firearms/plasma_rifle_charge.png" id="3_iljtj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fi5dw"]
 size = Vector2(72, 16)
@@ -12,10 +14,9 @@ shader = ExtResource("2_rnnj3")
 shader_parameter/color = Color(0.101961, 0.101961, 0.101961, 1)
 
 [node name="ArmPlateR" instance=ExtResource("1_hpgle")]
-label_behaviour = 1
-max_hp = 25
-hp = 25
-active = true
+script = ExtResource("2_4lysd")
+item_name = "Forearm Guard"
+item_icon = ExtResource("3_iljtj")
 
 [node name="Defence" parent="FloatPoint" index="3"]
 position = Vector2(0, 8)

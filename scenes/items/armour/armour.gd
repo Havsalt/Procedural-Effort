@@ -36,7 +36,6 @@ const HP_ANCHOR_FOLLOW = 0.03
 			return
 		if not is_multiplayer_authority():
 			return
-		label.text = str(value) + "HP"
 		if value < hp: # took damage
 			var diff = hp - value
 			if reaction_mode == REACTION_MODE.RESPOND:
@@ -48,6 +47,7 @@ const HP_ANCHOR_FOLLOW = 0.03
 			if break_mode == BREAK_MODE.REGENERATIVE:
 				timer_regeneration_delay.start()
 		hp = max(value, 0) # finally set the property (take damage)
+		label.text = str(hp) + "HP"
 		if hp == 0:
 			collision_shape.disabled = true
 			if animation_player.has_animation("broke"):

@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://c6dga4h4qu4ws"]
+
+[ext_resource type="PackedScene" uid="uid://sc0ru6is0bml" path="res://scenes/projectiles/projectile.tscn" id="1_uel4e"]
+[ext_resource type="Texture2D" uid="uid://ci50obbplrt87" path="res://sprites/ambient/sun.png" id="2_fi2ew"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_bexbj"]
+blend_mode = 1
+
+[node name="FlamerFuel" instance=ExtResource("1_uel4e")]
+damage = 3
+speed = 900.0
+bounce_angle = 2
+length = 22
+
+[node name="Sprite2D" parent="." index="2"]
+self_modulate = Color(0.937255, 0.109804, 0, 1)
+material = SubResource("CanvasItemMaterial_bexbj")
+position = Vector2(10.9358, 0)
+scale = Vector2(0.124331, 0.12389)
+texture = ExtResource("2_fi2ew")
+region_enabled = true
+region_rect = Rect2(60, 68, 192, 192)
+
+[node name="CollisionShape2D" parent="." index="3"]
+position = Vector2(10.9358, 0)

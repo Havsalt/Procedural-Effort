@@ -365,15 +365,17 @@ firing_mode = 2
 projectile = ExtResource("2_m2b2p")
 max_ammo = 24
 ammo = 24
-firerate = 20.0
+firerate = 18.0
 recoil_min = Vector2(3, -3)
 recoil_max = Vector2(5, 2)
 rot_recoil_min = -0.1
 rot_recoil_max = 0.1
 rot_recoil_recovery = 0.55
 rot_recoil_motion_recovery = 0.05
-shake_energy = 0.08
+shake_energy = 0.17
 damage = 6
+item_name = "SMG"
+item_icon = ExtResource("3_6h33l")
 use_hold_point_b = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

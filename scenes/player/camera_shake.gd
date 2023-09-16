@@ -3,7 +3,7 @@ extends Camera2D
 
 
 @export var max_trauma := 1.0
-@export var trauma_power := 2
+@export var trauma_power := 2.0
 @export var amount := 0.0
 @export var decay := 0.8
 @export var max_offset := Vector2(64, 64)

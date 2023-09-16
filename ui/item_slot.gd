@@ -2,6 +2,8 @@ class_name ItemSlot
 extends Panel
 
 
+signal item_changed
+
 @export var item: PackedScene
 @export var finite := true # holds a finite rescource (stacks to 1)
 @export var subscribe := true
@@ -10,9 +12,8 @@ extends Panel
 
 @onready var texture_rect = $MarginContainer/TextureRect
 @onready var drag_rect = $DragRect
-@onready var sub_viewport_container: SubViewportContainer = $SubViewportContainer
-@onready var sub_viewport: SubViewport = $SubViewportContainer/SubViewport
 
+var item_name: String = "" # last item name
 var dragging := false
 
 
@@ -25,8 +26,8 @@ func _ready() -> void:
 	drag_rect.size = texture_rect.size
 	drag_rect.hide()
 	set_process(false)
-	set_texture_from_scene()
-	await RenderingServer.frame_post_draw
+	if item:
+		set_texture_from_scene()
 	drag_rect.texture = texture_rect.texture
 
 
@@ -61,13 +62,22 @@ func _input(event: InputEvent) -> void:
 				if event is InputEventScreenTouch:
 					point = event.position
 				for container in get_containers():
-					if container.get_global_rect().has_point(point):
+					if container.get_global_rect().has_point(point): # `container` should be ItemSlot
 						if subscribe and publish:
 							var texture_copy = container.texture_rect.texture
 							container.texture_rect.texture = texture_rect.texture
 							container.drag_rect.texture = container.texture_rect.texture
 							texture_rect.texture = texture_copy
 							drag_rect.texture = texture_rect.texture
+							var item_name_copy = container.item_name
+							container.item_name = item_name
+							item_name = item_name_copy
+							var item_copy = container.item
+							container.item = item
+							item = item_copy
+							container.emit_signal("item_changed")
+							emit_signal("item_changed")
+						# TODO: make cases for subscribe and publish
 
 
 func _process(_delta: float) -> void:
@@ -81,11 +91,10 @@ func get_containers(slot_type: String = "slots") -> Array:
 
 
 func set_texture_from_scene() -> void:
-	var instance = item.instantiate()
-	sub_viewport.add_child(instance)
-	instance.position = Vector2.ZERO + Vector2(64, 32) # try to center
-	sub_viewport_container.show()
-	await RenderingServer.frame_post_draw
-	var result = sub_viewport.get_texture()
-#	sub_viewport_container.hide() # TODO: hide sub viewport
-	texture_rect.texture = result
+	var instance: Item = item.instantiate()
+	add_child(instance)
+	texture_rect.texture = instance.item_icon
+	item_name = instance.item_name
+	instance.hide()
+	instance.queue_free()
+	emit_signal("item_changed")

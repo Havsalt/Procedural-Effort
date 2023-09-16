@@ -12,6 +12,8 @@ extends Firearm
 @export var string_recovery: float = 0.70
 @export var hand_recovery: float = 0.15
 @export var hand_snap_margin: float = 0.5
+@export var min_shake_energy: float = 0.35
+@export var shadow_offset := Vector2(16, 16)
 
 @onready var string: Line2D = $String
 @onready var holding_point: Marker2D = $HoldingPoint
@@ -29,7 +31,7 @@ var bow_motion := Vector2()
 func _ready() -> void:
 	shadow.set_as_top_level(true)
 	shadow.global_scale = sprite.global_scale
-	shadow.global_position = sprite.global_position + Vector2(16, 16) # NOTE: copy from arrow `shadow_offset`
+	shadow.global_position = sprite.global_position + shadow_offset
 	shadow.global_rotation = sprite.global_rotation
 	if not active:
 		hide()
@@ -39,8 +41,14 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	shadow.global_position = sprite.global_position + Vector2(16, 16) # NOTE: copy from arrow `shadow_offset`
+	shadow.global_position = sprite.global_position + shadow_offset
 	shadow.global_rotation = sprite.global_rotation
+	
+	if not is_multiplayer_authority():
+		if active and (not animation_player.is_playing() or animation_player.assigned_animation == "reload") and is_visible_in_tree():
+			# override position
+			hold_point_b.global_position = holding_point.global_position
+		return # label is set hidden from editor
 	
 	if active and not animation_player.is_playing() or animation_player.assigned_animation == "reload":
 		# override position
@@ -49,7 +57,6 @@ func _process(_delta: float) -> void:
 	if active and not (animation_player.is_playing() and animation_player.current_animation == "reload"):
 		if not is_visible_in_tree():
 			return
-		
 	
 		if not animation_player.is_playing():
 			if Input.is_action_pressed("shoot") and not charging and can_shoot and not animation_player.is_playing():
@@ -68,7 +75,8 @@ func _process(_delta: float) -> void:
 					# handle arrow spawn
 					can_shoot = false
 					var instance: Projectile = local_projectile.instantiate()
-					owner.camera.shake(shake_energy * bonus_percent) # apply some camera shake
+#					owner.camera.shake(shake_energy * bonus_percent) # apply some camera shake
+					owner.camera.set_shake(max(min_shake_energy, shake_energy * bonus_percent)) # apply some camera shake
 					instance.add_collision_exception_with(owner)
 					instance.damage = damage
 					instance.master_nickname = Globals.nickname

@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://bq7okpj3idjqs"]
+
+[ext_resource type="PackedScene" uid="uid://c1adryovq3kp0" path="res://scenes/items/attachments/attachment.tscn" id="1_f16hr"]
+[ext_resource type="Texture2D" uid="uid://jk0wl03ttsc7" path="res://sprites/attatchments/muzzle_brake.png" id="2_nbrbf"]
+
+[node name="MuzzleBrake" instance=ExtResource("1_f16hr")]
+override = {
+"rot_recoil_max": 0.05,
+"rot_recoil_min": -0.05
+}
+item_name = "Muzzle Brake"
+item_icon = ExtResource("2_nbrbf")
+
+[node name="MainSprite" parent="FloatPoint" index="0"]
+scale = Vector2(4, 4)
+texture = ExtResource("2_nbrbf")

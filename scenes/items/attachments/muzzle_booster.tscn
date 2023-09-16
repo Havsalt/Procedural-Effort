@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dnm3j4duj18c0"]
+
+[ext_resource type="PackedScene" uid="uid://c1adryovq3kp0" path="res://scenes/items/attachments/attachment.tscn" id="1_lg2k1"]
+[ext_resource type="Texture2D" uid="uid://bs8ooexxx1cl8" path="res://sprites/attatchments/muzzle_booster.png" id="2_gutff"]
+
+[node name="MuzzleBooster" instance=ExtResource("1_lg2k1")]
+item_name = "Muzzle Booster"
+item_icon = ExtResource("2_gutff")
+
+[node name="MainSprite" parent="FloatPoint" index="0"]
+position = Vector2(2, 0)
+scale = Vector2(4, 4)
+texture = ExtResource("2_gutff")

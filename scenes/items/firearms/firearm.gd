@@ -41,6 +41,10 @@ var is_bursting := false
 var current_burst := 0
 
 
+func _enter_tree() -> void:
+	set_multiplayer_authority(0) # temp
+
+
 func _ready() -> void:
 	if not active:
 		hide()

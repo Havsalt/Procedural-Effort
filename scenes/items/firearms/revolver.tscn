@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://4tljdf7hx8ws"]
+
+[ext_resource type="PackedScene" uid="uid://bajp2ebbr025w" path="res://scenes/items/firearms/firearm.tscn" id="1_txmgs"]
+[ext_resource type="Texture2D" uid="uid://dew33hup73y5t" path="res://sprites/firearms/revolver.png" id="2_2yfh6"]
+[ext_resource type="PackedScene" uid="uid://dq0vvg3obm6a3" path="res://scenes/projectiles/swat_pistol_bullet.tscn" id="2_6glnc"]
+[ext_resource type="AudioStream" uid="uid://dfi7iyxat73hg" path="res://sounds/door_breach2.wav" id="3_l31no"]
+
+[node name="Revolver" instance=ExtResource("1_txmgs")]
+projectile = ExtResource("2_6glnc")
+max_ammo = 6
+ammo = 6
+damage = 17
+item_name = "Revolver"
+item_icon = ExtResource("2_2yfh6")
+use_hold_point_b = false
+
+[node name="Muzzle" parent="FloatPoint" index="0"]
+position = Vector2(75, 0)
+
+[node name="SoundShoot" parent="FloatPoint/Muzzle" index="0"]
+stream = ExtResource("3_l31no")
+volume_db = 6.0
+pitch_scale = 0.5
+
+[node name="MainSprite" parent="FloatPoint" index="1"]
+position = Vector2(29, 0)
+scale = Vector2(4, 4)
+texture = ExtResource("2_2yfh6")
+
+[node name="HoldPointA" parent="FloatPoint" index="2"]
+position = Vector2(-9, 4)
+
+[node name="HoldPointB" parent="FloatPoint" index="3"]
+position = Vector2(30, -11)
+
+[node name="Label" parent="FloatPoint" index="4"]
+offset_left = 38.0
+offset_top = 19.0
+offset_right = 78.0
+offset_bottom = 45.0

@@ -17,7 +17,7 @@ func _process(delta: float) -> void: # TODO: add remote toggle
 	if not shield: return
 	if shield.is_broken: return
 	if shield.animation_player.is_playing(): return
-	if not owner.synchronizer.is_multiplayer_authority(): return
+	if not is_multiplayer_authority(): return
 	if not Input.is_action_pressed("ctrl"): return
 	# toggle shield
 	if shield.is_visible_in_tree():

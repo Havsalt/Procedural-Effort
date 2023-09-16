@@ -546,7 +546,10 @@ rot_recoil_recovery = 0.7
 rot_recoil_motion_recovery = 0.2
 spread_angle_min = -6.0
 spread_angle_max = 6.0
+shake_energy = 0.2
 damage = 8
+item_name = "Nitrogen Splitter"
+item_icon = ExtResource("2_a58k8")
 use_hold_point_b = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

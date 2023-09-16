@@ -16,6 +16,7 @@ func on_respawn_requested(from: Player) -> void:
 	# fallback
 	if not spawnpoint.is_active() and not remaining.is_empty(): # broke because no respawn ready
 		from.global_position = Vector2.ZERO # spawn in center of the world
+		print("! Did not find point")
 		return
 	# process on succsess
 	prints("x Found point", spawnpoint.name)

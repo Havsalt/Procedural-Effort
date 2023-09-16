@@ -5,6 +5,8 @@ extends Node2D
 signal unequipped(this)
 signal equipped(this)
 
+@export var item_name: String = ""
+@export var item_icon: Texture2D
 @export var active := false
 @export var use_hold_point_a := true
 @export var use_hold_point_b := false

@@ -35,7 +35,7 @@ script = ExtResource("2_t6uji")
 
 [node name="SoundShoot" type="AudioStreamPlayer2D" parent="FloatPoint/Muzzle"]
 
-[node name="Sprite2D" type="Sprite2D" parent="FloatPoint"]
+[node name="MainSprite" type="Sprite2D" parent="FloatPoint"]
 texture = ExtResource("2_il6c3")
 
 [node name="HoldPointA" type="Marker2D" parent="FloatPoint"]

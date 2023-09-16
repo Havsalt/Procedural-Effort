@@ -1,32 +1,33 @@
-[gd_scene load_steps=21 format=3 uid="uid://du15kyjg6ixob"]
+[gd_scene load_steps=17 format=3 uid="uid://du15kyjg6ixob"]
 
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_rmgix"]
 [ext_resource type="Shader" path="res://shaders/color_override_rgb.gdshader" id="2_1fj5r"]
 [ext_resource type="Texture2D" uid="uid://6ia5po676wyo" path="res://icon.svg" id="3_md7v2"]
 [ext_resource type="Script" path="res://scenes/player/camera_shake.gd" id="4_85w7j"]
 [ext_resource type="PackedScene" uid="uid://bp37v1mggsqk1" path="res://scenes/player/arm.tscn" id="4_nusvh"]
-[ext_resource type="PackedScene" uid="uid://1tahulpvv1yx" path="res://scenes/items/firearms/bow.tscn" id="5_qlaea"]
 [ext_resource type="PackedScene" uid="uid://c74ru0glfdakw" path="res://scenes/items/armour/arm_plate_r.tscn" id="6_0vfkd"]
-[ext_resource type="PackedScene" uid="uid://blstrv861klnq" path="res://scenes/items/firearms/swat_pistol.tscn" id="6_c06jj"]
-[ext_resource type="PackedScene" uid="uid://4irmvqpiik2w" path="res://scenes/items/firearms/smg.tscn" id="7_t3c88"]
-[ext_resource type="PackedScene" uid="uid://dqkbgvgw765b1" path="res://scenes/items/firearms/bubbelhead.tscn" id="8_2jd4w"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_6ubh2"]
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/sync = true
+properties/0/watch = false
 properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/sync = true
+properties/1/watch = false
 properties/2/path = NodePath(".:proxy_velocity")
 properties/2/spawn = true
 properties/2/sync = true
+properties/2/watch = false
 properties/3/path = NodePath("ItemsPivot:position")
 properties/3/spawn = true
 properties/3/sync = true
+properties/3/watch = false
 properties/4/path = NodePath("ItemsPivot:rotation")
 properties/4/spawn = true
 properties/4/sync = true
+properties/4/watch = false
 
 [sub_resource type="Animation" id="Animation_hr1gw"]
 length = 0.001
@@ -139,6 +140,9 @@ shape = SubResource("CircleShape2D_lj7gp")
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true
 script = ExtResource("4_85w7j")
+max_trauma = 0.5
+trauma_power = 3.0
+decay = 0.6
 
 [node name="ArmL" parent="." instance=ExtResource("4_nusvh")]
 z_index = -3
@@ -204,12 +208,38 @@ vertical_alignment = 1
 z_index = -1
 position = Vector2(128, 0)
 
-[node name="SMG" parent="ItemsPivot/ItemsContainer" instance=ExtResource("7_t3c88")]
+[node name="MultiplayerSpawner1" type="MultiplayerSpawner" parent="ItemsPivot/ItemsContainer"]
+_spawnable_scenes = PackedStringArray("res://scenes/items/firearms/bow.tscn", "res://scenes/items/firearms/smg.tscn", "res://scenes/items/firearms/bubbelhead.tscn", "res://scenes/items/firearms/swat_pistol.tscn")
+spawn_path = NodePath("../Item1")
 
-[node name="Bow" parent="ItemsPivot/ItemsContainer" instance=ExtResource("5_qlaea")]
-shake_energy = 0.3
+[node name="Item1" type="Node2D" parent="ItemsPivot/ItemsContainer"]
 
-[node name="Bubbelhead" parent="ItemsPivot/ItemsContainer" instance=ExtResource("8_2jd4w")]
-shake_energy = 0.18
+[node name="MultiplayerSpawner2" type="MultiplayerSpawner" parent="ItemsPivot/ItemsContainer"]
+_spawnable_scenes = PackedStringArray("res://scenes/items/firearms/bow.tscn", "res://scenes/items/firearms/smg.tscn", "res://scenes/items/firearms/bubbelhead.tscn", "res://scenes/items/firearms/swat_pistol.tscn")
+spawn_path = NodePath("../Item2")
 
-[node name="SwatPistol" parent="ItemsPivot/ItemsContainer" instance=ExtResource("6_c06jj")]
+[node name="Item2" type="Node2D" parent="ItemsPivot/ItemsContainer"]
+
+[node name="MultiplayerSpawner3" type="MultiplayerSpawner" parent="ItemsPivot/ItemsContainer"]
+_spawnable_scenes = PackedStringArray("res://scenes/items/firearms/bow.tscn", "res://scenes/items/firearms/smg.tscn", "res://scenes/items/firearms/bubbelhead.tscn", "res://scenes/items/firearms/swat_pistol.tscn")
+spawn_path = NodePath("../Item3")
+
+[node name="Item3" type="Node2D" parent="ItemsPivot/ItemsContainer"]
+
+[node name="MultiplayerSpawner4" type="MultiplayerSpawner" parent="ItemsPivot/ItemsContainer"]
+_spawnable_scenes = PackedStringArray("res://scenes/items/firearms/bow.tscn", "res://scenes/items/firearms/smg.tscn", "res://scenes/items/firearms/bubbelhead.tscn", "res://scenes/items/firearms/swat_pistol.tscn")
+spawn_path = NodePath("../ItemF")
+
+[node name="ItemF" type="Node2D" parent="ItemsPivot/ItemsContainer"]
+
+[node name="MultiplayerSpawner5" type="MultiplayerSpawner" parent="ItemsPivot/ItemsContainer"]
+_spawnable_scenes = PackedStringArray("res://scenes/items/firearms/bow.tscn", "res://scenes/items/firearms/smg.tscn", "res://scenes/items/firearms/bubbelhead.tscn", "res://scenes/items/firearms/swat_pistol.tscn")
+spawn_path = NodePath("../ItemE")
+
+[node name="ItemE" type="Node2D" parent="ItemsPivot/ItemsContainer"]
+
+[node name="MultiplayerSpawner6" type="MultiplayerSpawner" parent="ItemsPivot/ItemsContainer"]
+_spawnable_scenes = PackedStringArray("res://scenes/items/firearms/bow.tscn", "res://scenes/items/firearms/smg.tscn", "res://scenes/items/firearms/bubbelhead.tscn", "res://scenes/items/firearms/swat_pistol.tscn")
+spawn_path = NodePath(".")
+
+[node name="ItemQ" type="Node2D" parent="ItemsPivot/ItemsContainer"]

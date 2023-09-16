@@ -18,18 +18,21 @@ enum PERMISSION {
 @onready var animated_hand_r = $AnimatedHandR
 
 var handling: Player = null
+var remote_handling := false
 
 
 func respawn_player(player: Player) -> void:
+	print("RESP: ", player)
 	handling = player
 	player.respawn(self)
 	animation_player.play("respawn_player") # transforms handled through animation proxies
 	permission = PERMISSION.WHOLE_BODY
 	handling.restriction = handling.RESTRICTION.NONE
+	rpc("remote_set_status", true)
 
 
 func is_active() -> bool:
-	return animation_player.is_playing()
+	return animation_player.is_playing() or remote_handling
 
 
 func _process(_delta: float) -> void:
@@ -44,11 +47,20 @@ func _process(_delta: float) -> void:
 
 
 func force_player_equip() -> void:
+	if not handling.held_item: # may be remote dummy
+		return
 	handling.held_item.equip() # TODO: make sure the player holds something
 
 
 func _on_respawn_finished(_anim_name: StringName = "respawn") -> void:
 	permission = PERMISSION.NONE
 	handling.restriction = handling.RESTRICTION.NONE
-	handling.held_item.equip()
+	if handling.held_item:
+		handling.held_item.equip()
 	handling = null
+	rpc("remote_set_status", false)
+
+
+@rpc("reliable", "call_remote", "any_peer")
+func remote_set_status(status: bool) -> void:
+	remote_handling = status

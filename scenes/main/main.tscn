@@ -1,12 +1,18 @@
-[gd_scene load_steps=16 format=3 uid="uid://b8oiv823jhmnm"]
+[gd_scene load_steps=23 format=3 uid="uid://b8oiv823jhmnm"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_psvmr"]
 [ext_resource type="PackedScene" uid="uid://j3rjsvyxq2nn" path="res://ui/item_slot.tscn" id="2_3qtjr"]
 [ext_resource type="Shader" path="res://shaders/color_override_rgb.gdshader" id="2_h3b5x"]
 [ext_resource type="Texture2D" uid="uid://6ia5po676wyo" path="res://icon.svg" id="3_drxxu"]
 [ext_resource type="PackedScene" uid="uid://1tahulpvv1yx" path="res://scenes/items/firearms/bow.tscn" id="3_vdpbw"]
+[ext_resource type="PackedScene" uid="uid://c4v40udy3u1vf" path="res://scenes/items/armour/electric_back_plate.tscn" id="3_y233n"]
+[ext_resource type="PackedScene" uid="uid://d3o4kf6yldrkq" path="res://ui/item_name_display.tscn" id="4_4fpb0"]
+[ext_resource type="PackedScene" uid="uid://c74ru0glfdakw" path="res://scenes/items/armour/arm_plate_r.tscn" id="4_s14e5"]
 [ext_resource type="Script" path="res://scenes/util/spawnpoint_manager.gd" id="6_7a675"]
 [ext_resource type="PackedScene" uid="uid://boau3gsr4plsb" path="res://scenes/util/spawnpoint.tscn" id="6_8wxl4"]
+[ext_resource type="PackedScene" uid="uid://4irmvqpiik2w" path="res://scenes/items/firearms/smg.tscn" id="6_fdh1p"]
+[ext_resource type="PackedScene" uid="uid://r4sl4hokmije" path="res://scenes/items/firearms/swat_pistol.tscn" id="7_smu07"]
+[ext_resource type="PackedScene" uid="uid://dqkbgvgw765b1" path="res://scenes/items/firearms/bubbelhead.tscn" id="8_vrt0i"]
 
 [sub_resource type="Animation" id="Animation_up7up"]
 length = 0.001
@@ -46,6 +52,9 @@ _data = {
 "idle": SubResource("Animation_cows6")
 }
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7a0dx"]
+bg_color = Color(0.354098, 0.684689, 0.433155, 0.372549)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xvghs"]
 shader = ExtResource("2_h3b5x")
 shader_parameter/color = Color(0.341176, 0.588235, 0.368627, 1)
@@ -58,7 +67,7 @@ shader = ExtResource("2_h3b5x")
 shader_parameter/color = Color(0.231373, 0.411765, 0.25098, 1)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_m40q5"]
-polygon = PackedVector2Array(-49, -49, 49, -49, 49, 49, -49, 49, -40.7435, -8.32755)
+polygon = PackedVector2Array(-49, -49, 49, -49, 49, 49, -49, 49)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_53euw"]
 size = Vector2(96, 96)
@@ -79,13 +88,20 @@ position = Vector2(576, 324)
 
 [node name="Menu" type="CanvasLayer" parent="."]
 
-[node name="PanelInfo" type="Panel" parent="Menu"]
+[node name="Panels" type="Control" parent="Menu"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PanelInfo" type="Panel" parent="Menu/Panels"]
+layout_mode = 0
 offset_left = 83.0
 offset_top = 39.0
 offset_right = 653.0
 offset_bottom = 145.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Menu/PanelInfo"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Menu/Panels/PanelInfo"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -96,69 +112,70 @@ grow_vertical = 2
 theme_override_constants/separation = 50
 alignment = 1
 
-[node name="HostName" type="VBoxContainer" parent="Menu/PanelInfo/HBoxContainer"]
+[node name="PortNumber" type="VBoxContainer" parent="Menu/Panels/PanelInfo/HBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Menu/PanelInfo/HBoxContainer/HostName"]
-layout_mode = 2
-text = "Host name"
-vertical_alignment = 1
-
-[node name="TextEdit" type="TextEdit" parent="Menu/PanelInfo/HBoxContainer/HostName"]
-custom_minimum_size = Vector2(100, 50)
-layout_mode = 2
-text = "127.0.0.1"
-placeholder_text = "Host name"
-
-[node name="PortNumber" type="VBoxContainer" parent="Menu/PanelInfo/HBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Menu/PanelInfo/HBoxContainer/PortNumber"]
+[node name="Label" type="Label" parent="Menu/Panels/PanelInfo/HBoxContainer/PortNumber"]
 layout_mode = 2
 text = "Port number"
 vertical_alignment = 1
 
-[node name="TextEdit" type="TextEdit" parent="Menu/PanelInfo/HBoxContainer/PortNumber"]
+[node name="TextEdit" type="TextEdit" parent="Menu/Panels/PanelInfo/HBoxContainer/PortNumber"]
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
 text = "8585"
 placeholder_text = "Port number"
 
-[node name="Host" type="VBoxContainer" parent="Menu/PanelInfo/HBoxContainer"]
+[node name="HostName" type="VBoxContainer" parent="Menu/Panels/PanelInfo/HBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Menu/PanelInfo/HBoxContainer/Host"]
+[node name="Label" type="Label" parent="Menu/Panels/PanelInfo/HBoxContainer/HostName"]
+layout_mode = 2
+text = "Enter code"
+vertical_alignment = 1
+
+[node name="TextEdit" type="TextEdit" parent="Menu/Panels/PanelInfo/HBoxContainer/HostName"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+text = "127.0.0.1"
+placeholder_text = "Host name"
+
+[node name="Host" type="VBoxContainer" parent="Menu/Panels/PanelInfo/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Menu/Panels/PanelInfo/HBoxContainer/Host"]
 layout_mode = 2
 text = "Host game"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="Menu/PanelInfo/HBoxContainer/Host"]
+[node name="Button" type="Button" parent="Menu/Panels/PanelInfo/HBoxContainer/Host"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 text = "Click"
 
-[node name="Join" type="VBoxContainer" parent="Menu/PanelInfo/HBoxContainer"]
+[node name="Join" type="VBoxContainer" parent="Menu/Panels/PanelInfo/HBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Menu/PanelInfo/HBoxContainer/Join"]
+[node name="Label" type="Label" parent="Menu/Panels/PanelInfo/HBoxContainer/Join"]
 layout_mode = 2
 text = "Join game"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="Menu/PanelInfo/HBoxContainer/Join"]
+[node name="Button" type="Button" parent="Menu/Panels/PanelInfo/HBoxContainer/Join"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 text = "Click"
 
-[node name="PanelName" type="Panel" parent="Menu"]
+[node name="PanelName" type="Panel" parent="Menu/Panels"]
+layout_mode = 0
 offset_left = 84.0
 offset_top = 168.0
 offset_right = 461.0
 offset_bottom = 282.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Menu/PanelName"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Menu/Panels/PanelName"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -169,15 +186,69 @@ offset_right = -33.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="Menu/PanelName/VBoxContainer"]
+[node name="Label" type="Label" parent="Menu/Panels/PanelName/VBoxContainer"]
 layout_mode = 2
 text = "Nickname"
 
-[node name="TextEdit" type="TextEdit" parent="Menu/PanelName/VBoxContainer"]
+[node name="TextEdit" type="TextEdit" parent="Menu/Panels/PanelName/VBoxContainer"]
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 
+[node name="PanelGetCode" type="Panel" parent="Menu/Panels"]
+layout_mode = 0
+offset_left = 477.0
+offset_top = 168.0
+offset_right = 654.0
+offset_bottom = 283.0
+
+[node name="Label" type="Label" parent="Menu/Panels/PanelGetCode"]
+layout_mode = 0
+offset_top = 18.0
+offset_right = 176.0
+offset_bottom = 44.0
+text = "Your code"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextEdit" type="TextEdit" parent="Menu/Panels/PanelGetCode"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 46.0
+offset_right = 149.0
+offset_bottom = 95.0
+text = "Unknown"
+editable = false
+context_menu_enabled = false
+shortcut_keys_enabled = false
+selecting_enabled = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+virtual_keyboard_enabled = false
+middle_mouse_paste_enabled = false
+
+[node name="CenterContainer" type="CenterContainer" parent="Menu"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PanelAbort" type="Panel" parent="Menu/CenterContainer"]
+layout_mode = 2
+
+[node name="AbortButton" type="Button" parent="Menu/CenterContainer/PanelAbort"]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Abort connection"
+
 [node name="Scoreboard" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="TextEdit" type="TextEdit" parent="Scoreboard"]
 anchors_preset = 1
@@ -202,7 +273,7 @@ middle_mouse_paste_enabled = false
 scroll_fit_content_height = true
 
 [node name="LoadoutMenu" type="CanvasLayer" parent="."]
-visible = false
+layer = 0
 
 [node name="Panel" type="Panel" parent="LoadoutMenu"]
 anchors_preset = 15
@@ -214,98 +285,127 @@ offset_right = -30.0
 offset_bottom = -30.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
-[node name="EquippedItems" type="VBoxContainer" parent="LoadoutMenu/Panel"]
+[node name="EquippedItems" type="Control" parent="LoadoutMenu/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 660.0
+offset_top = 47.0
+offset_right = -36.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="LoadoutMenu/Panel/EquippedItems"]
+layout_mode = 1
+offset_right = 396.0
+offset_bottom = 491.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_7a0dx")
+
+[node name="BodySlot" parent="LoadoutMenu/Panel/EquippedItems" instance=ExtResource("2_3qtjr")]
 layout_mode = 0
-offset_left = 125.0
-offset_top = 364.0
-offset_right = 828.0
-offset_bottom = 479.0
+offset_left = 110.0
+offset_top = 147.0
+offset_right = 286.0
+offset_bottom = 338.0
+item = ExtResource("3_y233n")
 
-[node name="Hotkeys" type="HBoxContainer" parent="LoadoutMenu/Panel/EquippedItems"]
-layout_mode = 2
+[node name="ItemNameDisplay" parent="LoadoutMenu/Panel/EquippedItems/BodySlot" node_paths=PackedStringArray("item_slot") instance=ExtResource("4_4fpb0")]
+layout_mode = 1
+offset_left = 31.0
+offset_top = -21.0
+offset_right = -42.0
+offset_bottom = -186.0
+item_slot = NodePath("..")
+prefix = "Q: "
 
-[node name="Label1" type="Label" parent="LoadoutMenu/Panel/EquippedItems/Hotkeys"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "1"
-horizontal_alignment = 1
+[node name="HeadSlot" parent="LoadoutMenu/Panel/EquippedItems" instance=ExtResource("2_3qtjr")]
+layout_mode = 0
+offset_left = 121.0
+offset_top = 27.0
+offset_right = 268.0
+offset_bottom = 129.0
+item = ExtResource("4_s14e5")
 
-[node name="Label2" type="Label" parent="LoadoutMenu/Panel/EquippedItems/Hotkeys"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "2"
-horizontal_alignment = 1
+[node name="ItemNameDisplay" parent="LoadoutMenu/Panel/EquippedItems/HeadSlot" node_paths=PackedStringArray("item_slot") instance=ExtResource("4_4fpb0")]
+layout_mode = 1
+offset_left = 151.0
+offset_top = -1.0
+offset_right = 151.0
+offset_bottom = -1.0
+item_slot = NodePath("..")
+prefix = "E: "
 
-[node name="Label3" type="Label" parent="LoadoutMenu/Panel/EquippedItems/Hotkeys"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "3"
-horizontal_alignment = 1
+[node name="ArmLSlot" parent="LoadoutMenu/Panel/EquippedItems" instance=ExtResource("2_3qtjr")]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 158.0
+offset_right = 106.0
+offset_bottom = 332.0
+item = ExtResource("6_fdh1p")
 
-[node name="Label4" type="Label" parent="LoadoutMenu/Panel/EquippedItems/Hotkeys"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "F"
-horizontal_alignment = 1
+[node name="ItemNameDisplay" parent="LoadoutMenu/Panel/EquippedItems/ArmLSlot" node_paths=PackedStringArray("item_slot") instance=ExtResource("4_4fpb0")]
+layout_mode = 1
+offset_left = -1.0
+offset_top = -27.0
+offset_right = 2.0
+offset_bottom = -27.0
+item_slot = NodePath("..")
+prefix = "1: "
 
-[node name="Label5" type="Label" parent="LoadoutMenu/Panel/EquippedItems/Hotkeys"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "E"
-horizontal_alignment = 1
-
-[node name="Label6" type="Label" parent="LoadoutMenu/Panel/EquippedItems/Hotkeys"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Q"
-horizontal_alignment = 1
-
-[node name="Items" type="HBoxContainer" parent="LoadoutMenu/Panel/EquippedItems"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="ItemSlot1" parent="LoadoutMenu/Panel/EquippedItems/Items" instance=ExtResource("2_3qtjr")]
-layout_mode = 2
+[node name="ArmRSlot" parent="LoadoutMenu/Panel/EquippedItems" instance=ExtResource("2_3qtjr")]
+layout_mode = 0
+offset_left = 288.0
+offset_top = 162.0
+offset_right = 392.0
+offset_bottom = 340.0
 item = ExtResource("3_vdpbw")
 
-[node name="ItemSlot2" parent="LoadoutMenu/Panel/EquippedItems/Items" instance=ExtResource("2_3qtjr")]
-layout_mode = 2
+[node name="ItemNameDisplay" parent="LoadoutMenu/Panel/EquippedItems/ArmRSlot" node_paths=PackedStringArray("item_slot") instance=ExtResource("4_4fpb0")]
+layout_mode = 1
+offset_left = 1.0
+offset_top = -36.0
+offset_right = 1.0
+offset_bottom = -36.0
+item_slot = NodePath("..")
+prefix = "2: "
 
-[node name="ItemSlot3" parent="LoadoutMenu/Panel/EquippedItems/Items" instance=ExtResource("2_3qtjr")]
-layout_mode = 2
-
-[node name="ItemSlot4" parent="LoadoutMenu/Panel/EquippedItems/Items" instance=ExtResource("2_3qtjr")]
-layout_mode = 2
-
-[node name="ItemSlot5" parent="LoadoutMenu/Panel/EquippedItems/Items" instance=ExtResource("2_3qtjr")]
-layout_mode = 2
-
-[node name="ItemSlot6" parent="LoadoutMenu/Panel/EquippedItems/Items" instance=ExtResource("2_3qtjr")]
-layout_mode = 2
-
-[node name="AvailableItems" type="VBoxContainer" parent="LoadoutMenu/Panel"]
+[node name="LegSlotL" parent="LoadoutMenu/Panel/EquippedItems" instance=ExtResource("2_3qtjr")]
 layout_mode = 0
-offset_left = 123.0
-offset_top = 233.0
-offset_right = 561.0
-offset_bottom = 341.0
+offset_left = 105.0
+offset_top = 342.0
+offset_right = 194.0
+offset_bottom = 486.0
+item = ExtResource("7_smu07")
 
-[node name="Items" type="HBoxContainer" parent="LoadoutMenu/Panel/AvailableItems"]
-layout_mode = 2
-size_flags_vertical = 3
+[node name="ItemNameDisplay" parent="LoadoutMenu/Panel/EquippedItems/LegSlotL" node_paths=PackedStringArray("item_slot") instance=ExtResource("4_4fpb0")]
+layout_mode = 1
+offset_left = -101.0
+offset_top = 71.0
+offset_right = -87.0
+offset_bottom = 71.0
+item_slot = NodePath("..")
+prefix = "3: "
 
-[node name="ItemSlot1" parent="LoadoutMenu/Panel/AvailableItems/Items" instance=ExtResource("2_3qtjr")]
-layout_mode = 2
+[node name="LegSlotR" parent="LoadoutMenu/Panel/EquippedItems" instance=ExtResource("2_3qtjr")]
+layout_mode = 0
+offset_left = 205.0
+offset_top = 342.0
+offset_right = 297.0
+offset_bottom = 486.0
+item = ExtResource("8_vrt0i")
 
-[node name="ItemSlot2" parent="LoadoutMenu/Panel/AvailableItems/Items" instance=ExtResource("2_3qtjr")]
-layout_mode = 2
-
-[node name="ItemSlot3" parent="LoadoutMenu/Panel/AvailableItems/Items" instance=ExtResource("2_3qtjr")]
-layout_mode = 2
-
-[node name="ItemSlot4" parent="LoadoutMenu/Panel/AvailableItems/Items" instance=ExtResource("2_3qtjr")]
-layout_mode = 2
+[node name="ItemNameDisplay" parent="LoadoutMenu/Panel/EquippedItems/LegSlotR" node_paths=PackedStringArray("item_slot") instance=ExtResource("4_4fpb0")]
+layout_mode = 1
+offset_left = 87.0
+offset_top = 72.0
+offset_right = 98.0
+offset_bottom = 72.0
+item_slot = NodePath("..")
+prefix = "F: "
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://scenes/player/player.tscn")
@@ -330,7 +430,7 @@ shadow_color = Color(0, 0, 0, 0.505882)
 shadow_filter = 1
 height = 1.0
 
-[node name="SpawnpointManager" type="Node" parent="."]
+[node name="SpawnpointManager" type="Node2D" parent="."]
 script = ExtResource("6_7a675")
 
 [node name="Spawnpoint1" parent="SpawnpointManager" instance=ExtResource("6_8wxl4")]
@@ -343,13 +443,13 @@ rotation = -1.28672
 
 [node name="Spawnpoint3" parent="SpawnpointManager" instance=ExtResource("6_8wxl4")]
 position = Vector2(-577, -47)
-rotation = -3.35879
+rotation = 2.9244
 
 [node name="Spawnpoint4" parent="SpawnpointManager" instance=ExtResource("6_8wxl4")]
 position = Vector2(1444, 1468)
-rotation = -5.58189
+rotation = 0.701295
 
-[node name="Walls" type="Node" parent="."]
+[node name="Walls" type="Node2D" parent="."]
 
 [node name="Block1" type="StaticBody2D" parent="Walls"]
 position = Vector2(0, 25)
@@ -740,7 +840,8 @@ material = SubResource("ShaderMaterial_ss1f4")
 scale = Vector2(0.75, 0.75)
 texture = ExtResource("3_drxxu")
 
-[connection signal="pressed" from="Menu/PanelInfo/HBoxContainer/Host/Button" to="." method="_on_host_pressed"]
-[connection signal="pressed" from="Menu/PanelInfo/HBoxContainer/Join/Button" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="Menu/Panels/PanelInfo/HBoxContainer/Host/Button" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="Menu/Panels/PanelInfo/HBoxContainer/Join/Button" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="Menu/CenterContainer/PanelAbort/AbortButton" to="." method="_on_abort_button_pressed"]
 [connection signal="despawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_despawned"]
 [connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]

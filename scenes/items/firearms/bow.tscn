@@ -282,7 +282,10 @@ rot_recoil_max = 0.03
 rot_recoil_recovery = 0.4
 spread_angle_min = -1.0
 spread_angle_max = 1.0
+shake_energy = 0.57
 damage = 34
+item_name = "Longbow"
+item_icon = ExtResource("5_s8f0e")
 use_hold_point_b = true
 metadata/_edit_horizontal_guides_ = []
 

@@ -37,7 +37,7 @@ func _process(_delta: float) -> void:
 	point_b.rotation = angle_b
 
 
-func law_of_cos(a: float, b: float, c: float) -> float: # -> angle B
+func law_of_cos(a: float, b: float, c: float) -> float: # -> angle A
 	if 2 * a * b == 0:
 		return 0.01
 	return acos( (a*a + b*b - c*c) / (2 * a * b))

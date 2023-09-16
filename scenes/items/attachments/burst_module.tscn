@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7ydkqj6rh6wp"]
+
+[ext_resource type="PackedScene" uid="uid://c1adryovq3kp0" path="res://scenes/items/attachments/attachment.tscn" id="1_stega"]
+
+[node name="BurstModule" instance=ExtResource("1_stega")]
+override = {
+"firing_mode": 1
+}
+item_name = "Burst Module"

@@ -1,11 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://blstrv861klnq"]
+[gd_scene load_steps=13 format=3 uid="uid://r4sl4hokmije"]
 
 [ext_resource type="Script" path="res://scenes/items/firearms/swat_pistol.gd" id="1_c3m5x"]
 [ext_resource type="PackedScene" uid="uid://dq0vvg3obm6a3" path="res://scenes/projectiles/swat_pistol_bullet.tscn" id="2_kyf6u"]
-[ext_resource type="Texture2D" uid="uid://c5xlytnyxep3s" path="res://sprites/firearms/m1911.png" id="2_sb4a8"]
 [ext_resource type="Script" path="res://scenes/items/firearms/float_point_sync.gd" id="3_bo8a5"]
 [ext_resource type="AudioStream" uid="uid://dfi7iyxat73hg" path="res://sounds/door_breach2.wav" id="3_kyjpi"]
 [ext_resource type="PackedScene" uid="uid://ccttykdnc777f" path="res://scenes/items/armour/swat_shield.tscn" id="5_jjudf"]
+[ext_resource type="Texture2D" uid="uid://c5xlytnyxep3s" path="res://sprites/firearms/pistol.png" id="5_w5kj4"]
 
 [sub_resource type="Animation" id="Animation_4rqku"]
 length = 0.001
@@ -56,6 +56,30 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("FloatPoint/MainSprite:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("FloatPoint/MainSprite:rotation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
 }
 
 [sub_resource type="Animation" id="Animation_dgoco"]
@@ -152,22 +176,49 @@ tracks/3/keys = {
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_3g28f"]
+resource_name = "reload"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FloatPoint/MainSprite:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-1, -4), Vector2(1.90735e-06, 5), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FloatPoint/MainSprite:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.292772, 0.12502, 0.0]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_vpu0g"]
 _data = {
 "RESET": SubResource("Animation_4rqku"),
 "dummy": SubResource("Animation_dgoco"),
 "equip": SubResource("Animation_wnvu8"),
+"reload": SubResource("Animation_3g28f"),
 "unequip": SubResource("Animation_njl0i")
 }
 
 [node name="SwatPistol" type="Node2D"]
 position = Vector2(25, 37)
 script = ExtResource("1_c3m5x")
-firing_mode = 1
 projectile = ExtResource("2_kyf6u")
 max_ammo = 15
 ammo = 15
-firerate = 4.0
+firerate = 8.0
 recoil_min = Vector2(10, -2)
 recoil_max = Vector2(12, 2)
 recoil_recovery = Vector2(0.7, 0.3)
@@ -177,8 +228,10 @@ rot_recoil_max = 0.12
 rot_recoil_recovery = 0.1
 spread_angle_min = -7.0
 spread_angle_max = 7.0
-shake_energy = 0.15
+shake_energy = 0.2
 damage = 12
+item_name = "T1 Pistol"
+item_icon = ExtResource("5_w5kj4")
 use_hold_point_b = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -205,7 +258,7 @@ pitch_scale = 2.0
 
 [node name="MainSprite" type="Sprite2D" parent="FloatPoint"]
 scale = Vector2(4, 4)
-texture = ExtResource("2_sb4a8")
+texture = ExtResource("5_w5kj4")
 
 [node name="HoldPointA" type="Marker2D" parent="FloatPoint"]
 position = Vector2(-20, 4)
@@ -228,6 +281,8 @@ position = Vector2(-15, 0)
 position = Vector2(-50, -68)
 
 [node name="SwatShield" parent="ShieldAttatchment" instance=ExtResource("5_jjudf")]
+max_hp = 75
+hp = 75
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished" flags=18]
 [connection signal="timeout" from="TimerCooldown" to="." method="_on_cooldown_timeout" flags=18]

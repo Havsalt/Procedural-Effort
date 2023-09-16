@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://d2no2i7fh4ti2"]
+
+[ext_resource type="PackedScene" uid="uid://4irmvqpiik2w" path="res://scenes/items/firearms/smg.tscn" id="1_hp5ap"]
+
+[node name="ShotgunSMG" instance=ExtResource("1_hp5ap")]
+firing_mode = 1
+max_ammo = 12
+ammo = 12
+firerate = 7.0
+burst_rate = 16.0
+pellet_count = 5

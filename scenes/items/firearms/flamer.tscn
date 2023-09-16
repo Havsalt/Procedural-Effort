@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=3 uid="uid://16snbheytht3"]
+
+[ext_resource type="PackedScene" uid="uid://bajp2ebbr025w" path="res://scenes/items/firearms/firearm.tscn" id="1_6cfmj"]
+[ext_resource type="Texture2D" uid="uid://cdeusj7qmpfy6" path="res://sprites/firearms/quad_launcher.png" id="2_i2xen"]
+[ext_resource type="PackedScene" uid="uid://c6dga4h4qu4ws" path="res://scenes/projectiles/flamer_fuel.tscn" id="3_af4jo"]
+
+[node name="Flamer" instance=ExtResource("1_6cfmj")]
+firing_mode = 2
+projectile = ExtResource("3_af4jo")
+max_ammo = 30
+ammo = 30
+recoil_min = Vector2(-3, -2)
+recoil_max = Vector2(-4, 2)
+recoil_recovery = Vector2(0.3, 0.2)
+rot_recoil_min = -0.08
+rot_recoil_max = 0.08
+rot_recoil_recovery = 0.3
+rot_recoil_motion_recovery = 0.03
+shake_energy = 0.04
+
+[node name="Muzzle" parent="FloatPoint" index="0"]
+position = Vector2(50, 0)
+
+[node name="MainSprite" parent="FloatPoint" index="1"]
+scale = Vector2(4, 4)
+texture = ExtResource("2_i2xen")
+
+[node name="HoldPointA" parent="FloatPoint" index="2"]
+position = Vector2(-41, 12)
+
+[node name="HoldPointB" parent="FloatPoint" index="3"]
+position = Vector2(19, -14)
+
+[node name="Label" parent="FloatPoint" index="4"]
+offset_left = 32.0
+offset_top = 19.0
+offset_right = 72.0
+offset_bottom = 45.0
