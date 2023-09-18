@@ -12,7 +12,11 @@ extends Marker2D
 @onready var b_side: float = point_c.position.x
 @onready var a_side: float = point_b.position.x
 @onready var total_length: float = a_side + b_side
-@onready var target: Vector2 = point_b.global_position
+@export var target: Vector2 = Vector2.ZERO
+
+
+func _ready() -> void:
+	target = point_b.global_position
 
 
 func _process(_delta: float) -> void:

@@ -64,6 +64,7 @@ func _process(_delta: float) -> void:
 
 func _on_join_pressed() -> void:
 	save_items_to_globals()
+	scoreboard_menu.show()
 	var host: String = host_field.text
 	var port: int = port_field.text.to_int()
 	# store address if possible
@@ -92,6 +93,7 @@ func _on_join_pressed() -> void:
 
 func _on_host_pressed() -> void:
 	save_items_to_globals()
+	scoreboard_menu.show()
 	var host: String = host_field.text
 	var port: int = port_field.text.to_int()
 	# store address if possible

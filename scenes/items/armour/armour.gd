@@ -30,7 +30,7 @@ const HP_ANCHOR_FOLLOW = 0.03
 @export var response_mode: RESPONSE_MODE = RESPONSE_MODE.TAKE_DAMAGE
 @export var label_behaviour: LABEL_BEHAVIOUR = LABEL_BEHAVIOUR.STATIC
 @export var max_hp: int = 50
-@export var hp: int = 50 : # TODO: broadcats `hp`
+@export var hp: int = 50 :
 	set(value):
 		if not is_inside_tree():
 			return

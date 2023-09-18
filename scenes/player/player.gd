@@ -72,12 +72,7 @@ const COLORS = [
 @onready var hp_pivot = $ItemsPivot/HPPivot
 @onready var hp_anchor = $ItemsPivot/HPPivot/HPAnchor
 @onready var hp_label = get_node("ItemsPivot/HPPivot/HPAnchor/Label")
-@onready var item_container_1: Node2D = $ItemsPivot/ItemsContainer/Item1
-@onready var item_container_2: Node2D = $ItemsPivot/ItemsContainer/Item2
-@onready var item_container_3: Node2D = $ItemsPivot/ItemsContainer/Item3
-@onready var item_container_f: Node2D = $ItemsPivot/ItemsContainer/ItemF
-@onready var item_container_e: Node2D = $ItemsPivot/ItemsContainer/ItemE
-@onready var item_container_q: Node2D = $ItemsPivot/ItemsContainer/ItemQ
+@onready var item_container: Marker2D = $ItemsPivot/ItemsContainer
 @onready var items: Array[Item] = get_items()
 @onready var held_item: Item = null # current
 
@@ -109,24 +104,6 @@ func _ready() -> void:
 	if is_multiplayer_authority():
 		connect("request_respawn", get_parent().spawnpoint_manager.on_respawn_requested)
 		emit_signal("request_respawn", self) # initial spawn
-		if Globals.item_1:
-			var item_1: Item = Globals.item_1.instantiate()
-			item_container_1.add_child(item_1, true)
-		if Globals.item_2:
-			var item_2: Item = Globals.item_2.instantiate()
-			item_container_2.add_child(item_2, true)
-		if Globals.item_3:
-			var item_3: Item = Globals.item_3.instantiate()
-			item_container_3.add_child(item_3, true)
-		if Globals.item_f:
-			var item_f: Item = Globals.item_f.instantiate()
-			item_container_f.add_child(item_f, true)
-		if Globals.item_e and false: # DISABLED
-			var item_e: Item = Globals.item_e.instantiate()
-			item_container_e.add_child(item_e, true)
-		if Globals.item_q and false: # DISABLED
-			var item_q: Item = Globals.item_q.instantiate()
-			item_container_q.add_child(item_q, true)
 		items = get_items() # refresh
 		# handle items
 		for item in items:
@@ -134,32 +111,24 @@ func _ready() -> void:
 			item.connect("unequipped", _on_item_unequipped)
 			item.owner = self
 		# set first item active
-		held_item = item_container_1.get_child(0) # TODO: make sure there is at least 1 item equipped
+		held_item = items[0] # TODO: make sure there is at least 1 item equipped
 		held_item.active = true
-		held_item.visible = true # just in case
+#		held_item.visible = true # just in case
 		# update multiplayer auth
 		set_multiplayer_authority(get_multiplayer_authority())
 	else:
-		set_process(false)
-		set_physics_process(false)
+		held_item = items[0]
+		held_item.active = true
+#		set_process(false)
+#		set_physics_process(false)
 
 
 func get_items() -> Array[Item]:
 	var found: Array[Item] = []
-	if container_plate_r.get_child_count() > 0:
-		found.append(container_plate_r.get_child(0))
-	if item_container_1.get_child_count() > 0:
-		found.append(item_container_1.get_child(0))
-	if item_container_2.get_child_count() > 0:
-		found.append(item_container_2.get_child(0))
-	if item_container_3.get_child_count() > 0:
-		found.append(item_container_3.get_child(0))
-	if item_container_f.get_child_count() > 0:
-		found.append(item_container_f.get_child(0))
-	if item_container_e.get_child_count() > 0:
-		found.append(item_container_e.get_child(0))
-	if item_container_q.get_child_count() > 0:
-		found.append(item_container_q.get_child(0))
+#	found.append_array(container_plate_r.get_children())
+	found.append_array(items_container.get_children())
+#	for item in found: # sort valid ones - remote set has to find absolute index!
+#		pass
 	return found
 
 
@@ -182,24 +151,21 @@ func _physics_process(delta: float) -> void:
 		global_rotation = lerp_angle(global_rotation, (get_global_mouse_position() - global_position).angle(), TURNING_RATE)
 		move_and_slide()
 	
+	if not is_multiplayer_authority():
+		return
+	
 #	if restriction == RESTRICTION.WHOLE_BODY:
 #		return
 	# handle right arm
 	if held_item.use_hold_point_a:
 		arm_r.target = held_item.hold_point_a.global_position
 	else:
-		if is_multiplayer_authority():
-			arm_r.target = arm_r.hand.global_position.lerp(items_pivot.global_position + ARM_R_REST_POSITION.rotated(rotation), INACTIVE_ARM_REST_RATE)
-		else:
-			arm_r.target = items_pivot.global_position + ARM_R_REST_POSITION.rotated(rotation)
+		arm_r.target = arm_r.hand.global_position.lerp(items_pivot.global_position + ARM_R_REST_POSITION.rotated(rotation), INACTIVE_ARM_REST_RATE)
 	# handle left arm
 	if held_item.use_hold_point_b:
 		arm_l.target = held_item.hold_point_b.global_position
 	else:
-		if is_multiplayer_authority():
-			arm_l.target = arm_l.hand.global_position.lerp(items_pivot.global_position + ARM_L_REST_POSITION.rotated(rotation), INACTIVE_ARM_REST_RATE)
-		else:
-			arm_l.target = items_pivot.global_position + ARM_L_REST_POSITION.rotated(rotation)
+		arm_l.target = arm_l.hand.global_position.lerp(items_pivot.global_position + ARM_L_REST_POSITION.rotated(rotation), INACTIVE_ARM_REST_RATE)
 	# WARNING: `item` may require `hold_point_a` and `hold_point_b`
 
 
@@ -224,18 +190,13 @@ func _process(_delta: float) -> void:
 	if not is_multiplayer_authority() or held_item.animation_player.is_playing():
 		return
 	
-	if Input.is_action_pressed("1") and item_container_1.get_child_count() and held_item != item_container_1.get_child(0):
-		set_item_from_idx(0)
-		
-	elif Input.is_action_pressed("2") and item_container_2.get_child_count() and held_item != item_container_2.get_child(0):
-		set_item_from_idx(1)
-	
-	elif Input.is_action_pressed("3") and item_container_3.get_child_count() and held_item != item_container_3.get_child(0):
-		set_item_from_idx(2)
-	
-	elif Input.is_action_pressed("f") and item_container_f.get_child_count() and held_item != item_container_f.get_child(0):
-		set_item_from_idx(3)
-	# item `Q` and `E` are armour
+	var idx = 0
+	for key in ["1", "2", "3", "f"]:
+		if Input.is_action_pressed(key):
+			set_item_from_idx(idx)
+			break
+		idx += 1
+	# TODO: item `Q` and `E` are armour
 
 
 func _on_item_equipped(_item: Item) -> void:
@@ -246,14 +207,21 @@ func _on_item_unequipped(_item: Item) -> void:
 	return
 
 
-func respawn(where: Spawnpoint) -> void:
+func respawn(spawnpoint: Spawnpoint) -> void:
 	if held_item:
 		held_item.hide()
 	animation_player.play("respawn")
-	global_position = where.animated_position.global_position
+	global_position = spawnpoint.animated_position.global_position
 	camera.set_shake(0)
-	for item in items:
-		item.on_respawn()
+	for equipment in get_all_equipment():
+		equipment.on_respawn()
+
+
+func get_all_equipment() -> Array:
+	var found = []
+	found.append_array(items)
+	found.append_array(container_plate_r.get_children())
+	return found
 
 
 func damage_shake_function(x: float) -> float: # f(x) -> ...
@@ -278,20 +246,14 @@ func set_item_from_idx(idx: int) -> void:
 	held_item.unequip()
 	if held_item.animation_player.has_animation("unequip"):
 		await held_item.animation_player.animation_finished
-	if idx == 0:
-		held_item = item_container_1.get_child(0)
-	if idx == 1:
-		held_item = item_container_2.get_child(0)
-	if idx == 2:
-		held_item = item_container_3.get_child(0)
-	if idx == 3:
-		held_item = item_container_f.get_child(0)
+	held_item = items[idx]
 	held_item.equip()
 	held_item.active = true
 
 
 @rpc("reliable", "call_remote", "any_peer")
 func remote_set_item_from_idx(idx: int) -> void:
+	prints("Remote set:", items[idx], idx)
 	held_item.active = false
 	held_item.unequip()
 	if held_item.animation_player.has_animation("unequip"):

@@ -32,14 +32,6 @@ properties/4/path = NodePath("ItemsPivot:rotation")
 properties/4/spawn = true
 properties/4/sync = true
 properties/4/watch = false
-properties/5/path = NodePath("ArmL:target")
-properties/5/spawn = true
-properties/5/sync = true
-properties/5/watch = false
-properties/6/path = NodePath("ArmR:target")
-properties/6/spawn = true
-properties/6/sync = true
-properties/6/watch = false
 
 [sub_resource type="Animation" id="Animation_hr1gw"]
 length = 0.001
@@ -120,6 +112,8 @@ radius = 14.0
 [node name="Player" type="CharacterBody2D"]
 motion_mode = 1
 script = ExtResource("1_rmgix")
+max_hp = null
+proxy_velocity = null
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_6ubh2")

@@ -155,6 +155,11 @@ func on_respawn() -> void:
 	rotational_motion = 0 # TODO: make default for Item
 	timer_cooldown.stop()
 	timer_burst_cooldown.stop()
+	animation_player.play("RESET")
+	animation_player.advance(10)
+	animation_player.stop()
+	if not active:
+		hide()
 
 
 func reload() -> void:

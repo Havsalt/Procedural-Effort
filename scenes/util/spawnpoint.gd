@@ -22,12 +22,11 @@ var remote_handling := false
 
 
 func respawn_player(player: Player) -> void:
-	print("RESP: ", player)
 	handling = player
 	player.respawn(self)
 	animation_player.play("respawn_player") # transforms handled through animation proxies
 	permission = PERMISSION.WHOLE_BODY
-	handling.restriction = handling.RESTRICTION.NONE
+	player.restriction = player.RESTRICTION.NONE
 	rpc("remote_set_status", true)
 
 
@@ -47,16 +46,17 @@ func _process(_delta: float) -> void:
 
 
 func force_player_equip() -> void:
-	if not handling.held_item: # may be remote dummy
-		return
+#	if not handling.held_item: # may be remote dummy
+#		return
+	handling.held_item.show()
 	handling.held_item.equip() # TODO: make sure the player holds something
 
 
 func _on_respawn_finished(_anim_name: StringName = "respawn") -> void:
 	permission = PERMISSION.NONE
-	handling.restriction = handling.RESTRICTION.NONE
-	if handling.held_item:
-		handling.held_item.equip()
+	handling.restriction = handling.RESTRICTION.NONE # handling is player
+#	if handling.held_item:
+#		handling.held_item.equip()
 	handling = null
 	rpc("remote_set_status", false)
 
